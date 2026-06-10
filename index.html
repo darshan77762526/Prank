@@ -3,369 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MegaStore - Premium Retail</title>
+    <title>ZURA - Premium Fashion</title>
     <style>
-        /* Modern App Styling */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f6f9;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #e5e7eb; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        .app { background: #fff; max-width: 400px; width: 100%; min-height: 100vh; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .page { display: none; flex-direction: column; flex-grow: 1; overflow-y: auto; background: #fff; }
+        .page.active { display: flex; }
+        
+        /* Headers */
+        .header { padding: 15px 20px; background: #fff; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .header-title { font-weight: 800; font-size: 18px; letter-spacing: 1px; color: #111; }
+        .back-btn { font-size: 20px; cursor: pointer; color: #374151; }
+        
+        /* Inputs & Buttons */
+        input, select { width: 100%; padding: 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none; margin-top: 6px; }
+        input:focus { border-color: #2563eb; }
+        .btn { width: 100%; background: #111; color: #fff; padding: 16px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; }
+        .btn:active { transform: scale(0.98); }
+        
+        /* SCREEN 1: LOGIN */
+        .login-wrap { padding: 30px 20px; }
+        .login-wrap h2 { margin-bottom: 5px; font-size: 24px; }
+        .login-wrap p { color: #6b7280; font-size: 14px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-label { font-size: 12px; font-weight: 600; color: #4b5563; text-transform: uppercase; }
 
-        .app-container {
-            background: #fff;
-            max-width: 420px;
-            width: 100%;
-            min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+        /* SCREEN 2: HOME */
+        .banner { background: linear-gradient(135deg, #111, #374151); color: white; padding: 20px; text-align: center; }
+        .banner-text { font-size: 12px; font-weight: bold; letter-spacing: 2px; color: #fbbf24; }
+        .product-grid { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .p-card { border: 1px solid #f3f4f6; border-radius: 8px; overflow: hidden; cursor: pointer; }
+        .p-img { width: 100%; height: 200px; object-fit: cover; background: #f9fafb; }
+        .p-info { padding: 12px; }
+        .p-brand { font-size: 12px; font-weight: 700; color: #4b5563; }
+        .p-title { font-size: 13px; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 4px 0; }
+        .p-price { font-weight: 800; font-size: 15px; }
 
-        .header {
-            padding: 16px 20px;
-            border-bottom: 1px solid #eee;
-            font-weight: 700;
-            font-size: 16px;
-            color: #1f2937;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* SCREEN 3: PRODUCT DETAIL (PDP) */
+        .pdp-img { width: 100%; height: 400px; object-fit: cover; }
+        .pdp-details { padding: 20px; }
+        .stock-tag { color: #dc2626; font-size: 12px; font-weight: 700; background: #fef2f2; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .action-row { display: flex; gap: 15px; margin: 20px 0; border-top: 1px solid #f3f4f6; border-bottom: 1px solid #f3f4f6; padding: 15px 0; }
+        .action-item { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #4b5563; cursor: pointer; }
+        .bottom-bar { position: sticky; bottom: 0; background: white; padding: 15px; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
 
-        .content { padding: 16px; flex-grow: 1; }
-        .page { display: none; }
-        .page.active { display: block; }
+        /* SCREEN 4: CART & COUPON */
+        .cart-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #f3f4f6; }
+        .c-img { width: 80px; height: 100px; object-fit: cover; border-radius: 6px; }
+        .c-info { flex-grow: 1; }
+        .coupon-box { padding: 15px; background: #f9fafb; margin: 15px; border-radius: 8px; border: 1px dashed #d1d5db; }
+        .c-flex { display: flex; gap: 10px; margin-top: 10px; }
+        .c-btn { background: #111; color: white; border: none; padding: 0 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .bill { padding: 20px; }
+        .b-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: #4b5563; }
+        .b-total { font-weight: 800; font-size: 16px; color: #111; border-top: 1px solid #e5e7eb; padding-top: 10px; margin-top: 5px; }
+        .success-text { color: #059669; font-weight: bold; }
 
-        /* --- SCREEN 1: SHOPPING --- */
-        .product-grid { display: flex; flex-direction: column; gap: 16px; }
-        .shop-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-        .shop-img { font-size: 36px; background: #f3f4f6; padding: 12px; border-radius: 6px; }
-        .shop-details { flex-grow: 1; }
-        .shop-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; color: #374151; }
-        .shop-price { font-weight: 700; color: #111827; }
-        .add-btn {
-            background: #2874f0; color: white; border: none; padding: 8px 12px;
-            border-radius: 4px; font-weight: 600; font-size: 12px; cursor: pointer;
-        }
+        /* SCREEN 5: ADDRESS */
+        .address-form { padding: 20px; }
+        .row-2 { display: flex; gap: 15px; }
+        
+        /* SCREEN 6: PRANK */
+        #prank-page { justify-content: center; align-items: center; text-align: center; padding: 30px; background: #fff; }
+        .prank-icon { font-size: 70px; margin-bottom: 15px; animation: popIn 0.5s ease; }
+        .prank-title { color: #dc2626; font-size: 28px; font-weight: 900; margin-bottom: 10px; }
+        .prank-sub { color: #374151; font-size: 16px; line-height: 1.6; font-weight: 500; }
+        .black-book { background: #fef08a; padding: 2px 6px; font-weight: 800; color: #111; border-radius: 4px; }
 
-        /* Coupon Modal Pop-up */
-        .modal-overlay {
-            position: absolute; top:0; left:0; right:0; bottom:0;
-            background: rgba(0,0,0,0.5); z-index: 100;
-            display: none; justify-content: center; align-items: center;
-        }
-        .modal {
-            background: white; padding: 24px; border-radius: 12px; width: 80%;
-            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .modal-title { font-size: 18px; font-weight: 700; color: #10b981; margin-bottom: 8px; }
-        .claim-btn {
-            background: #10b981; color: white; border: none; width: 100%;
-            padding: 12px; border-radius: 6px; font-weight: bold; margin-top: 15px; cursor: pointer;
-        }
+        /* Loader */
+        .loader-overlay { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.9); z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .spinner { width: 40px; height: 40px; border: 3px solid #f3f4f6; border-top: 3px solid #111; border-radius: 50%; animation: spin 1s linear infinite; }
 
-        /* --- SCREEN 2: CART & COUPON --- */
-        .coupon-box { display: flex; gap: 8px; margin: 20px 0; }
-        .coupon-box input {
-            flex-grow: 1; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; outline: none;
-        }
-        .apply-btn {
-            background: white; color: #ff3f6c; border: 1px solid #ff3f6c;
-            padding: 0 16px; border-radius: 6px; font-weight: bold; cursor: pointer;
-        }
-        .bill-details { border-top: 1px solid #eee; padding-top: 16px; margin-top: 16px; }
-        .bill-row { display: flex; justify-content: space-between; font-size: 14px; color: #4b5563; margin-bottom: 8px; }
-        .bill-row.total { font-weight: bold; color: #111827; font-size: 16px; border-top: 1px solid #eee; padding-top: 12px; }
-        .footer-btn {
-            background: #ff3f6c; color: white; border: none; width: 100%; padding: 16px;
-            border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 20px;
-        }
-        .footer-btn.disabled { opacity: 0.5; pointer-events: none; }
-
-        /* --- SCREEN 3: SHIPPING ADDRESS --- */
-        .form-group { margin-bottom: 16px; text-align: left; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; color: #4b5563; margin-bottom: 6px; }
-        .form-group input, .form-group textarea {
-            width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; outline: none;
-        }
-
-        /* --- SCREEN 4: ORDER CONFIRMED --- */
-        .success-box { text-align: center; padding-top: 40px; }
-        .checkmark { font-size: 64px; color: #10b981; margin-bottom: 16px; }
-        .conf-title { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 12px; }
-        .address-summary { background: #f9fafb; border: 1px solid #e5e7eb; padding: 16px; border-radius: 8px; text-align: left; font-size: 14px; color: #4b5563; }
-
-        /* --- SCREEN 5: THE GRAND PRANK --- */
-        #view-prank { background: white; text-align: center; padding: 40px 24px; }
-        .prank-icon { font-size: 64px; margin-bottom: 16px; }
-        .prank-title { color: #d32f2f; font-size: 26px; font-weight: 900; margin-bottom: 12px; }
-        .highlight { background: #ffeb3b; padding: 2px 6px; font-weight: bold; border-radius: 4px; }
-        .rain-item { position: absolute; top: -50px; font-size: 24px; animation: fall linear infinite; opacity: 0.5; z-index: 1; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-
-        /* Simple Spinner overlay */
-        .overlay-loader {
-            position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.9);
-            display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 200;
-        }
-        .spinner { width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid #ff3f6c; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div class="app-container" id="app">
-        <div class="header" id="app-header">
-            <span>MegaStore</span>
-            <span id="header-cart">🛒 Bag</span>
-        </div>
+<div class="app">
+    
+    <!-- LOADER -->
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
+        <p id="loader-text" style="font-weight: 600; color: #111; margin-top: 15px;">Authenticating...</p>
+    </div>
 
-        <div class="content">
-            
-            <!-- SCREEN 1: STOREFRONT -->
-            <div id="view-shop" class="page active">
-                <h3 style="margin-top:0; color:#374151;">⚡ Flash Sale Deals</h3>
-                <div class="product-grid">
-                    <div class="shop-card">
-                        <div class="shop-img">👕</div>
-                        <div class="shop-details">
-                            <div class="shop-title">Oversized Premium Cotton Hoodie</div>
-                            <div class="shop-price">₹2,499</div>
-                        </div>
-                        <button class="add-btn" onclick="addToCart('Oversized Premium Cotton Hoodie', 2499, '👕')">Buy Now</button>
-                    </div>
-                    <div class="shop-card">
-                        <div class="shop-img">👟</div>
-                        <div class="shop-details">
-                            <div class="shop-title">Classic Minimalist Sneakers</div>
-                            <div class="shop-price">₹3,499</div>
-                        </div>
-                        <button class="add-btn" onclick="addToCart('Classic Minimalist Sneakers', 3499, '👟')">Buy Now</button>
-                    </div>
-                    <div class="shop-card">
-                        <div class="shop-img">🎒</div>
-                        <div class="shop-details">
-                            <div class="shop-title">Waterproof Tech Backpack</div>
-                            <div class="shop-price">₹1,999</div>
-                        </div>
-                        <button class="add-btn" onclick="addToCart('Waterproof Tech Backpack', 1999, '🎒')">Buy Now</button>
-                    </div>
-                </div>
+    <!-- 1. LOGIN -->
+    <div id="login-page" class="page active">
+        <div class="header"><div class="header-title">ZURA</div></div>
+        <div class="login-wrap">
+            <h2>Welcome Back</h2>
+            <p>Sign in to access exclusive flash deals.</p>
+            <div class="form-group">
+                <label class="form-label">Mobile Number</label>
+                <input type="tel" id="login-num" placeholder="Enter 10-digit number">
             </div>
-
-            <!-- SCREEN 2: CART / CHECKOUT -->
-            <div id="view-cart" class="page">
-                <div class="shop-card" style="margin-bottom: 20px;">
-                    <div class="shop-img" id="cart-img">👕</div>
-                    <div class="shop-details">
-                        <div class="shop-title" id="cart-title">Product Title</div>
-                        <div class="shop-price" id="cart-price">₹2,499</div>
-                    </div>
-                </div>
-
-                <div class="coupon-title" style="font-size:12px; font-weight:bold; color:#4b5563;">APPLY COUPON</div>
-                <div class="coupon-box">
-                    <input type="text" id="coupon-input" placeholder="Enter promo code">
-                    <button class="apply-btn" onclick="applyCoupon()">APPLY</button>
-                </div>
-                <p id="coupon-error" style="color:#d32f2f; font-size:12px; margin-top:-10px; display:none;">Invalid Coupon Code</p>
-
-                <div class="bill-details">
-                    <div class="bill-row"><span>Total MRP</span><span id="bill-mrp">₹2,499</span></div>
-                    <div class="bill-row"><span>Discount</span><span style="color:#10b981;" id="bill-discount">- ₹0</span></div>
-                    <div class="bill-row"><span>Delivery Charges</span><span style="color:#10b981;">FREE</span></div>
-                    <div class="bill-row total"><span>Total Amount</span><span id="bill-total">₹2,499</span></div>
-                </div>
-
-                <button class="footer-btn disabled" id="cart-next-btn" onclick="switchPage('view-shipping')">PROCEED TO SHIPPING</button>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="login-pass" placeholder="Enter password">
             </div>
-
-            <!-- SCREEN 3: SHIPPING FORM -->
-            <div id="view-shipping" class="page">
-                <h3 style="margin-top:0; color:#374151;">Shipping Address</h3>
-                <div class="form-group">
-                    <label>FULL NAME</label>
-                    <input type="text" id="ship-name" placeholder="e.g. Ishant">
-                </div>
-                <div class="form-group">
-                    <label>MOBILE NUMBER</label>
-                    <input type="tel" id="ship-phone" placeholder="10-digit mobile number">
-                </div>
-                <div class="form-group">
-                    <label>DELIVERY ADDRESS</label>
-                    <textarea id="ship-address" rows="3" placeholder="Flat / House No. / Colony"></textarea>
-                </div>
-                <button class="footer-btn" onclick="processOrderPlacement()">PLACE ORDER</button>
-            </div>
-
-            <!-- SCREEN 4: SUCCESS CONFIRMATION -->
-            <div id="view-confirm" class="page">
-                <div class="success-box">
-                    <div class="checkmark">✓</div>
-                    <div class="conf-title">Order Confirmed!</div>
-                    <p style="color:#4b5563; font-size:14px; margin-bottom:24px;">Thank you for your purchase. Your payment of ₹1 was processed successfully.</p>
-                    
-                    <div class="address-summary">
-                        <strong style="color:#111827; display:block; margin-bottom:6px;">Shipping Details:</strong>
-                        <div id="conf-name-display" style="margin-bottom:4px; font-weight:600;"></div>
-                        <div style="line-height:1.4;">Mahadev Nagar, Lava Nagpur, Maharashtra</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SCREEN 5: REALITY CHECK -->
-            <div id="view-prank" class="page">
-                <div class="prank-icon">🤡</div>
-                <div class="prank-title">STAGE 2 UNLOCKED</div>
-                <p style="color:#111827; font-size:18px; font-weight:700; margin-bottom:12px;">PADHAI KAR LE ISHANT!</p>
-                <p style="color:#4b5563; font-size:15px; line-height:1.6;">
-                    Bhai Mahadev Nagar tak parcel aane ki umeed chor de. <br><br>
-                    Ye ₹1 ke chakkar me apna time barbad karna band kar aur chup-chaap jaa ke apni <span class="highlight">Black Book</span> solve kar! 📚⏳
-                </p>
-            </div>
-
-        </div>
-
-        <!-- Automatic Pop-up Modal -->
-        <div class="modal-overlay" id="coupon-modal">
-            <div class="modal">
-                <div class="modal-title">🎉 Special Flash Offer!</div>
-                <p style="font-size:13px; color:#4b5563; margin:0 0 15px 0;">Grab any item on screen for just ₹1. Claim your personalized coupon code below.</p>
-                <div style="background:#f3f4f6; padding:10px; font-weight:bold; letter-spacing:1px; border:1px dashed #9ca3af;" id="raw-code">ISHANT-LOOT-1</div>
-                <button class="claim-btn" onclick="closeModal()">CLAIM & COPY CODE</button>
-            </div>
-        </div>
-
-        <!-- Loader Spinner Overlay -->
-        <div class="overlay-loader" id="app-loader">
-            <div class="spinner"></div>
-            <p style="margin-top:12px; font-size:14px; font-weight:600; color:#374151;" id="loader-msg">Processing...</p>
+            <button class="btn" onclick="doLogin()">Secure Login</button>
         </div>
     </div>
 
-    <script>
-        let selectedProduct = {};
+    <!-- 2. HOME STORE -->
+    <div id="home-page" class="page">
+        <div class="header">
+            <div class="header-title">ZURA</div>
+            <div onclick="showPage('cart-page')" style="cursor:pointer;">🛒 <span id="cart-count">0</span></div>
+        </div>
+        <div class="banner">
+            <div class="banner-text">MEMBER EXCLUSIVE</div>
+            <h2 style="margin:5px 0;">Midnight Flash Sale</h2>
+        </div>
+        <div class="product-grid">
+            <div class="p-card" onclick="openPDP('Black Essential Tee', 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', 1499)">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" class="p-img">
+                <div class="p-info">
+                    <div class="p-brand">ZURA BASICS</div>
+                    <div class="p-title">Black Essential Tee</div>
+                    <div class="p-price">₹1,499</div>
+                </div>
+            </div>
+            <div class="p-card" onclick="openPDP('Urban Grey Sneakers', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400', 3299)">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" class="p-img">
+                <div class="p-info">
+                    <div class="p-brand">AERO WALK</div>
+                    <div class="p-title">Urban Grey Sneakers</div>
+                    <div class="p-price">₹3,299</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Trigger Coupon Pop-up 1.5 seconds after loading the page
+    <!-- 3. PRODUCT DETAIL (PDP) -->
+    <div id="pdp-page" class="page">
+        <div class="header">
+            <div class="back-btn" onclick="showPage('home-page')">←</div>
+            <div class="header-title">Product Details</div>
+            <div onclick="showPage('cart-page')" style="cursor:pointer;">🛒</div>
+        </div>
+        <img src="" id="pdp-img" class="pdp-img">
+        <div class="pdp-details">
+            <div class="stock-tag">🔥 Only 5 left in stock</div>
+            <div class="p-brand" id="pdp-brand">BRAND</div>
+            <h2 style="margin:5px 0 10px 0; font-size:20px;" id="pdp-title">Title</h2>
+            <div class="p-price" style="font-size: 22px;" id="pdp-price">₹0</div>
+            
+            <div class="action-row">
+                <div class="action-item">❤️ Wishlist</div>
+                <div class="action-item" onclick="alert('Link Copied!')">🔗 Share</div>
+            </div>
+            
+            <p style="font-size: 14px; color: #4b5563; line-height: 1.5;">Premium quality material designed for everyday comfort and street-style aesthetic. 100% authentic product.</p>
+        </div>
+        <div class="bottom-bar">
+            <button class="btn" onclick="addToBag()">ADD TO BAG</button>
+        </div>
+    </div>
+
+    <!-- 4. CART & COUPON -->
+    <div id="cart-page" class="page">
+        <div class="header">
+            <div class="back-btn" onclick="showPage('home-page')">←</div>
+            <div class="header-title">Shopping Bag</div>
+        </div>
+        
+        <div id="cart-content" style="display:none;">
+            <div class="cart-item">
+                <img src="" id="cart-img" class="c-img">
+                <div class="c-info">
+                    <div class="p-title" id="cart-title" style="font-weight:bold; font-size:15px;">Title</div>
+                    <div style="color:#6b7280; font-size:12px; margin-bottom:10px;">Qty: 1 | Size: M</div>
+                    <div class="p-price" id="cart-price">₹0</div>
+                </div>
+            </div>
+
+            <div class="coupon-box">
+                <div style="font-weight:700; font-size:13px; color:#374151;">APPLY PROMO CODE</div>
+                <div class="c-flex">
+                    <input type="text" id="coupon-input" placeholder="Enter code (e.g. FLASH1)">
+                    <button class="c-btn" onclick="applyCoupon()">APPLY</button>
+                </div>
+                <div id="coupon-msg" style="font-size:12px; margin-top:8px; color:#dc2626; display:none;">Invalid code.</div>
+            </div>
+
+            <div class="bill">
+                <h3 style="font-size:14px; margin-top:0;">Price Details</h3>
+                <div class="b-row"><span>Bag Total</span><span id="bill-mrp">₹0</span></div>
+                <div class="b-row"><span>Coupon Discount</span><span id="bill-disc" class="success-text">- ₹0</span></div>
+                <div class="b-row"><span>Delivery</span><span class="success-text">FREE</span></div>
+                <div class="b-row b-total"><span>Total Payable</span><span id="bill-total">₹0</span></div>
+            </div>
+            
+            <div class="bottom-bar">
+                <button class="btn" onclick="showPage('address-page')">PROCEED TO SHIPPING</button>
+            </div>
+        </div>
+        
+        <div id="empty-cart" style="text-align:center; padding: 50px 20px; color:#6b7280;">
+            <h3>Your bag is empty</h3>
+            <p>Add items to start shopping.</p>
+        </div>
+    </div>
+
+    <!-- 5. ADDRESS FORM -->
+    <div id="address-page" class="page">
+        <div class="header">
+            <div class="back-btn" onclick="showPage('cart-page')">←</div>
+            <div class="header-title">Delivery Address</div>
+        </div>
+        <div class="address-form">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="addr-name" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mobile Number</label>
+                <input type="tel" id="addr-phone" placeholder="10-digit mobile number">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Flat, House no., Building</label>
+                <input type="text" id="addr-line1" placeholder="Enter flat / house no.">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Area, Colony, Street</label>
+                <input type="text" id="addr-line2" placeholder="Enter area / street">
+            </div>
+            <div class="row-2">
+                <div class="form-group" style="flex:1;">
+                    <label class="form-label">City</label>
+                    <input type="text" id="addr-city" placeholder="City">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label class="form-label">Pincode</label>
+                    <input type="number" id="addr-pin" placeholder="6 digits">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">State</label>
+                <select id="addr-state">
+                    <option value="">Select State</option>
+                    <option value="MH">Maharashtra</option>
+                    <option value="DL">Delhi</option>
+                    <option value="KA">Karnataka</option>
+                </select>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <button class="btn" onclick="placeOrder()">PLACE ORDER & PAY</button>
+        </div>
+    </div>
+
+    <!-- 6. THE PRANK DROP -->
+    <div id="prank-page" class="page">
+        <div class="prank-icon">🤡</div>
+        <div class="prank-title">ORDER REJECTED</div>
+        <div class="prank-sub">
+            Bhai tu kitna free hai? Pura account banaya, address bhara, sirf ₹1 ke kapdo ke liye? 😂<br><br>
+            Ye sapne dekhna band kar aur chup-chaap jaake apni <span class="black-book">Black Book</span> solve kar!<br><br>
+            Padhai pe dhyan de bhai, ye sab chillar offers me kuch nahi rakha. 📚⏳
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentProduct = null;
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function showLoader(text, time, callback) {
+        const loader = document.getElementById('loader');
+        document.getElementById('loader-text').innerText = text;
+        loader.style.display = 'flex';
         setTimeout(() => {
-            document.getElementById('coupon-modal').style.display = 'flex';
-        }, 1500);
+            loader.style.display = 'none';
+            if(callback) callback();
+        }, time);
+    }
 
-        function closeModal() {
-            document.getElementById('coupon-modal').style.display = 'none';
+    function doLogin() {
+        const num = document.getElementById('login-num').value;
+        const pass = document.getElementById('login-pass').value;
+        if(num.length >= 10 && pass.length > 2) {
+            showLoader('Authenticating User...', 1500, () => showPage('home-page'));
+        } else {
+            alert('Please enter a valid mobile number and password.');
         }
+    }
 
-        function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0,0);
-        }
+    function openPDP(title, img, price) {
+        currentProduct = { title, img, price };
+        document.getElementById('pdp-title').innerText = title;
+        document.getElementById('pdp-img').src = img;
+        document.getElementById('pdp-price').innerText = '₹' + price;
+        showPage('pdp-page');
+    }
 
-        function addToCart(title, price, img) {
-            selectedProduct = { title, price, img };
+    function addToBag() {
+        showLoader('Adding to Bag...', 800, () => {
+            document.getElementById('cart-count').innerText = '1';
             
-            // Populate Cart details
-            document.getElementById('cart-title').innerText = title;
-            document.getElementById('cart-price').innerText = '₹' + price;
-            document.getElementById('cart-img').innerText = img;
-            document.getElementById('bill-mrp').innerText = '₹' + price;
-            document.getElementById('bill-total').innerText = '₹' + price;
+            // Populate Cart
+            document.getElementById('empty-cart').style.display = 'none';
+            document.getElementById('cart-content').style.display = 'block';
             
-            switchPage('view-cart');
-        }
+            document.getElementById('cart-title').innerText = currentProduct.title;
+            document.getElementById('cart-img').src = currentProduct.img;
+            document.getElementById('cart-price').innerText = '₹' + currentProduct.price;
+            document.getElementById('bill-mrp').innerText = '₹' + currentProduct.price;
+            document.getElementById('bill-total').innerText = '₹' + currentProduct.price;
+            
+            showPage('cart-page');
+        });
+    }
 
-        function applyCoupon() {
-            const input = document.getElementById('coupon-input').value.trim().toUpperCase();
-            const err = document.getElementById('coupon-error');
-            const loader = document.getElementById('app-loader');
-            
-            if (input === 'ISHANT-LOOT-1') {
-                err.style.display = 'none';
-                document.getElementById('loader-msg').innerText = 'Applying coupon details...';
-                loader.style.display = 'flex';
+    function applyCoupon() {
+        const code = document.getElementById('coupon-input').value.toUpperCase();
+        const msg = document.getElementById('coupon-msg');
+        
+        // Let's make "FLASH1" the secret code you tell him
+        if(code === 'FLASH1') {
+            msg.style.display = 'none';
+            showLoader('Validating Coupon...', 1500, () => {
+                const discount = currentProduct.price - 1;
+                document.getElementById('bill-disc').innerText = '- ₹' + discount;
+                document.getElementById('bill-total').innerText = '₹1';
                 
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    document.getElementById('bill-discount').innerText = '- ₹' + (selectedProduct.price - 1);
-                    document.getElementById('bill-total').innerText = '₹1';
-                    
-                    document.getElementById('coupon-input').disabled = true;
-                    document.getElementById('coupon-input').value = 'ISHANT-LOOT-1 APPLIED';
-                    document.getElementById('coupon-input').style.color = '#10b981';
-                    document.getElementById('coupon-input').style.fontWeight = 'bold';
-                    
-                    document.getElementById('cart-next-btn').classList.remove('disabled');
-                }, 1200);
-            } else {
-                err.style.display = 'block';
-            }
+                document.getElementById('coupon-input').value = 'FLASH1 APPLIED!';
+                document.getElementById('coupon-input').style.color = '#059669';
+                document.getElementById('coupon-input').disabled = true;
+            });
+        } else {
+            msg.innerText = 'Invalid or expired code.';
+            msg.style.display = 'block';
+        }
+    }
+
+    function placeOrder() {
+        const name = document.getElementById('addr-name').value;
+        const city = document.getElementById('addr-city').value;
+        const state = document.getElementById('addr-state').value;
+        
+        if(!name || !city || !state) {
+            alert('Please fill out all address fields completely.');
+            return;
         }
 
-        function processOrderPlacement() {
-            const name = document.getElementById('ship-name').value.trim();
-            const loader = document.getElementById('app-loader');
-            
-            if(!name) { alert('Please enter your name'); return; }
+        showLoader('Processing Payment...', 2000, () => {
+            showLoader('Confirming Order with Seller...', 2000, () => {
+                // The ultimate drop
+                showPage('prank-page');
+                document.body.style.background = '#fef2f2'; // Red warning tint
+            });
+        });
+    }
+</script>
 
-            document.getElementById('loader-msg').innerText = 'Verifying security address...';
-            loader.style.display = 'flex';
-
-            setTimeout(() => {
-                document.getElementById('loader-msg').innerText = 'Finalizing ₹1 payment gateway...';
-            }, 1500);
-
-            setTimeout(() => {
-                loader.style.display = 'none';
-                document.getElementById('conf-name-display').innerText = name;
-                switchPage('view-confirm');
-                
-                // Trigger the ultimate prank switch 2.5 seconds after confirmation loads
-                setTimeout(() => {
-                    triggerPrankDrop();
-                }, 2500);
-            }, 3500);
-        }
-
-        function triggerPrankDrop() {
-            switchPage('view-prank');
-            document.body.style.backgroundColor = '#ffebee';
-            
-            // Adjust header to reality alert design
-            const header = document.getElementById('app-header');
-            header.innerHTML = '<span>⚠️ Reality Check</span><span>❌ Failed</span>';
-            header.style.backgroundColor = '#ffcdd2';
-            header.style.color = '#c62828';
-            
-            // Start running the study background elements loop
-            startStudyRain();
-        }
-
-        function startStudyRain() {
-            const emojis = ['📚', '⏳', '📝', '📖'];
-            setInterval(() => {
-                const item = document.createElement('div');
-                item.classList.add('rain-item');
-                item.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                item.style.left = Math.random() * 100 + 'vw';
-                item.style.animationDuration = Math.random() * 3 + 2 + 's';
-                document.body.appendChild(item);
-                setTimeout(() => { item.remove(); }, 5000);
-            }, 300);
-        }
-    </script>
 </body>
 </html>
