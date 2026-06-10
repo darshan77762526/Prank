@@ -3,548 +3,620 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZM Looks - Premium Fashion</title>
+    <title>ZM LOOKS | Premium Retail Architecture</title>
     <style>
-        :root { --primary: #000; --bg: #f9fafb; --gray: #6b7280; --border: #e5e7eb; --red: #dc2626; }
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; background: #e5e7eb; display: flex; justify-content: center; min-height: 100vh; }
-        .app { background: #fff; max-width: 420px; width: 100%; min-height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-        
-        .page { display: none; flex-direction: column; flex-grow: 1; overflow-y: auto; background: var(--bg); padding-bottom: 70px; }
+        :root {
+            --primary: #111111;
+            --accent: #2563eb;
+            --success: #059669;
+            --danger: #dc2626;
+            --surface: #ffffff;
+            --background: #f3f4f6;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --radius-lg: 12px;
+            --radius-md: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* SaaS Fixed Viewport Container */
+        .app-shell {
+            background: var(--surface);
+            max-width: 420px;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow-y: auto;
+            background: var(--surface);
+            padding-bottom: 75px;
+            animation: pageReveal 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         .page.active { display: flex; }
-        .page.no-bottom { padding-bottom: 0; }
+        .page.no-nav { padding-bottom: 0; }
+
+        /* Navigation Headers */
+        .navbar {
+            background: var(--surface);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
+
+        .brand-logo { font-weight: 900; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-back { font-size: 20px; cursor: pointer; display: flex; align-items: center; background: none; border: none; padding: 0; }
+
+        /* Premium Form Controls */
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select, textarea { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; outline: none; background: #fafafa; transition: all 0.2s; color: var(--text-main); }
+        input:focus, select:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 3px rgba(17,17,17,0.05); }
         
-        /* Header */
-        .header { background: #fff; padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 20; }
-        .logo { font-weight: 900; font-size: 22px; letter-spacing: -1px; text-transform: uppercase; }
+        .btn-prime { width: 100%; background: var(--primary); color: white; border: none; padding: 16px; border-radius: var(--radius-md); font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-prime:active { transform: scale(0.99); opacity: 0.9; }
+        .btn-sub { width: 100%; background: transparent; color: var(--primary); border: 1px solid var(--border); padding: 14px; border-radius: var(--radius-md); font-weight: 600; font-size: 14px; cursor: pointer; }
+
+        /* Grid Architecture */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+        .item-card { background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); position: relative; cursor: pointer; transition: transform 0.2s; }
+        .item-img { width: 100%; height: 210px; object-fit: cover; background: #f9fafb; }
+        .wish-toggle { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.9); width: 34px; height: 34px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.1s; }
+        .wish-toggle:active { transform: scale(0.85); }
+        .item-details { padding: 12px; }
+        .item-brand { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .item-title { font-size: 13px; color: var(--text-main); margin: 3px 0 6px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+        .item-price { font-weight: 800; font-size: 14px; }
+
+        /* PDP Layout */
+        .hero-image { width: 100%; height: 420px; object-fit: cover; }
+        .pdp-body { padding: 20px; background: var(--surface); }
+        .pdp-actions { display: flex; gap: 12px; margin-top: 24px; position: sticky; bottom: 0; background: var(--surface); padding: 15px 0; border-top: 1px solid var(--border); }
+
+        /* Cart Rows & Invoice Layout */
+        .line-item { display: flex; gap: 16px; padding: 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
+        .line-img { width: 75px; height: 95px; object-fit: cover; border-radius: var(--radius-md); }
+        .line-info { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
         
-        /* Auth Screen */
-        .auth-container { padding: 30px 20px; background: #fff; flex-grow: 1; }
-        .auth-tabs { display: flex; margin-bottom: 30px; border-bottom: 2px solid var(--border); }
-        .auth-tab { flex: 1; text-align: center; padding: 10px; font-weight: 600; color: var(--gray); cursor: pointer; }
-        .auth-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); margin-bottom: -2px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--gray); margin-bottom: 8px; text-transform: uppercase; }
-        input, select { width: 100%; padding: 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; outline: none; background: #f9fafb; transition: 0.2s; }
-        input:focus { border-color: var(--primary); background: #fff; }
-        .btn { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
+        .promo-trigger-box { background: #f8fafc; border: 1px dashed var(--border); border-radius: var(--radius-md); padding: 16px; margin: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .invoice-box { background: var(--surface); padding: 20px; border-top: 8px solid #f3f4f6; }
+        .invoice-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: var(--text-muted); }
+        .invoice-total { font-size: 16px; font-weight: 800; color: var(--text-main); border-top: 1px dashed var(--border); padding-top: 16px; margin-top: 8px; }
 
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: relative; }
-        .card-img { width: 100%; height: 220px; object-fit: cover; }
-        .wish-btn-float { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.9); width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 18px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card-info { padding: 12px; }
-        .brand { font-size: 11px; font-weight: 700; color: var(--gray); text-transform: uppercase; }
-        .title { font-size: 13px; color: #111; margin: 4px 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .price { font-weight: 800; font-size: 15px; }
+        /* Dedicated Coupon Page Components */
+        .coupon-list { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .coupon-card { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; background: white; text-align: left; position: relative; }
+        .coupon-card.disabled { opacity: 0.6; background: #fafafa; }
+        .coupon-badge { background: #f1f5f9; color: var(--text-main); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .coupon-card.active-discount .coupon-badge { background: #ecfdf5; color: var(--success); }
 
-        /* PDP Page */
-        .pdp-img { width: 100%; height: 450px; object-fit: cover; }
-        .pdp-content { padding: 20px; background: #fff; }
-        .action-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .action-btns .btn-outline { flex: 1; background: #fff; border: 1px solid var(--border); color: #111; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* Bottom Tab Navigator */
+        .tab-bar { position: absolute; bottom: 0; width: 100%; background: var(--surface); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 14px 0; z-index: 30; }
+        .tab-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 600; cursor: pointer; gap: 4px; }
+        .tab-item.active { color: var(--primary); }
+        .tab-icon { font-size: 20px; position: relative; }
+        .counter-badge { position: absolute; top: -4px; right: -8px; background: var(--danger); color: white; font-size: 9px; width: 15px; height: 15px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 700; }
 
-        /* Cart & List items */
-        .list-item { display: flex; gap: 15px; padding: 15px; background: #fff; border-bottom: 1px solid var(--border); }
-        .list-img { width: 80px; height: 100px; object-fit: cover; border-radius: 8px; }
-        .list-info { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        
-        .coupon-section { background: #fff; padding: 20px; margin-top: 10px; }
-        .coupon-flex { display: flex; gap: 10px; margin-top: 10px; }
-        .coupon-flex input { flex-grow: 1; margin: 0; }
-        .apply-btn { background: var(--primary); color: #fff; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        
-        .bill-box { background: #fff; padding: 20px; margin-top: 10px; }
-        .b-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: var(--gray); }
-        .b-total { font-size: 18px; font-weight: 800; color: #111; border-top: 1px dashed var(--border); padding-top: 15px; margin-top: 5px; }
-        .success { color: #059669; font-weight: bold; }
+        /* Core Global Micro-loaders */
+        .global-loader { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.95); z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .spin-wheel { width: 38px; height: 38px; border: 3px solid #f3f4f6; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .ui-toast { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); background: #111; color: white; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; z-index: 200; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .ui-toast.visible { top: 24px; }
 
-        /* Bottom Nav */
-        .bottom-nav { position: absolute; bottom: 0; width: 100%; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 12px 0; z-index: 20; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 11px; font-weight: 600; cursor: pointer; gap: 4px; }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 20px; position: relative; }
-        .badge { position: absolute; top: -5px; right: -8px; background: var(--red); color: white; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; }
-
-        /* Prank Screen */
-        .prank-screen { justify-content: center; align-items: center; text-align: center; padding: 30px; background: #fff; }
-        .prank-icon { font-size: 80px; margin-bottom: 20px; animation: bounce 1s ease infinite alternate; }
-        .prank-title { color: var(--red); font-size: 28px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
-        .black-book { background: #fef08a; color: #111; padding: 2px 8px; font-weight: 800; border-radius: 4px; }
-
-        /* Toast & Loader */
-        .toast { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #111; color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s; }
-        .toast.show { opacity: 1; top: 40px; }
-        
-        .loader { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.95); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 40px; height: 40px; border: 3px solid #f3f4f6; border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        /* Sandbox Prank Frame */
+        .prank-frame { justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: var(--surface); }
+        .prank-graphic { font-size: 75px; margin-bottom: 20px; }
+        .prank-h1 { color: var(--danger); font-size: 26px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .term-highlight { background: #fef08a; color: #000; padding: 2px 6px; font-weight: 700; border-radius: 4px; }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+        @keyframes pageReveal { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="app">
+<div class="app-shell">
     
-    <div class="toast" id="toast">Added to Bag</div>
+    <div class="ui-toast" id="global-toast">Item Added</div>
     
-    <div class="loader" id="loader">
-        <div class="spinner"></div>
-        <p id="loader-msg" style="font-weight: 600; margin-top: 15px;">Processing...</p>
+    <div class="global-loader" id="global-loader">
+        <div class="spin-wheel"></div>
+        <p id="loader-message" style="font-weight: 600; font-size: 14px; margin-top: 16px; color: var(--text-main);">Syncing data structure...</p>
     </div>
 
-    <!-- AUTH PAGE -->
-    <div id="page-auth" class="page active no-bottom">
-        <div class="header" style="justify-content: center;"><div class="logo">ZM LOOKS</div></div>
-        <div class="auth-container">
+    <!-- AUTH MODULE -->
+    <div id="view-auth" class="page active no-nav">
+        <div class="navbar" style="justify-content: center;"><div class="brand-logo">ZM LOOKS</div></div>
+        <div class="auth-container" style="padding: 30px 24px;">
             <div class="auth-tabs">
-                <div class="auth-tab" id="tab-login" onclick="switchAuth('login')">SIGN IN</div>
-                <div class="auth-tab active" id="tab-signup" onclick="switchAuth('signup')">SIGN UP</div>
+                <div class="auth-tab" id="switch-signin" onclick="toggleAuthLayout('login')">SIGN IN</div>
+                <div class="auth-tab active" id="switch-signup" onclick="toggleAuthLayout('signup')">SIGN UP</div>
             </div>
 
-            <div id="form-login" style="display:none;">
+            <div id="wrapper-login" style="display:none;">
                 <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="tel" placeholder="Enter 10-digit number">
+                    <label class="form-label">Account Mobile ID</label>
+                    <input type="tel" placeholder="Enter mobile number">
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label class="form-label">Password</label>
                     <input type="password" placeholder="Enter password">
                 </div>
-                <button class="btn" onclick="tryLogin()">Sign In</button>
+                <button class="btn-prime" onclick="executeFakeLogin()">Sign In securely</button>
             </div>
 
-            <div id="form-signup">
+            <div id="wrapper-signup">
                 <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="reg-name" placeholder="Enter full name">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="join-name" placeholder="Enter full identity name">
                 </div>
                 <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="tel" id="reg-phone" placeholder="Enter 10-digit number">
+                    <label class="form-label">Mobile Number</label>
+                    <input type="tel" id="join-phone" placeholder="Enter mobile contact number">
                 </div>
                 <div class="form-group">
-                    <label>Set Password</label>
-                    <input type="password" id="reg-pass" placeholder="Create a password">
+                    <label class="form-label">Access Password</label>
+                    <input type="password" id="join-pass" placeholder="Create robust password">
                 </div>
-                <button class="btn" onclick="doSignUp()">Create Account</button>
+                <button class="btn-prime" onclick="executeRegistration()">Create Master Account</button>
             </div>
         </div>
     </div>
 
-    <!-- HOME PAGE -->
-    <div id="page-home" class="page">
-        <div class="header">
-            <div class="logo">ZM LOOKS</div>
-        </div>
-        <div class="grid" id="product-grid"></div>
+    <!-- DASHBOARD RETAIL INDEX -->
+    <div id="view-home" class="page">
+        <div class="navbar"><div class="brand-logo">ZM LOOKS</div></div>
+        <div class="product-grid" id="container-products"></div>
     </div>
 
-    <!-- PDP PAGE -->
-    <div id="page-pdp" class="page">
-        <div class="header">
-            <div onclick="goHome()" style="font-size:22px; cursor:pointer;">←</div>
-            <div style="font-weight:700;">Details</div>
-            <div style="width:20px;"></div>
+    <!-- PRODUCT COMPONENT VIEW (PDP) -->
+    <div id="view-pdp" class="page">
+        <div class="navbar">
+            <button class="nav-back" onclick="navigateToRoute('view-home')">←</button>
+            <div style="font-weight: 700; font-size: 15px;">Product Overview</div>
+            <div style="width: 20px;"></div>
         </div>
-        <img src="" id="pdp-img" class="pdp-img">
-        <div class="pdp-content">
-            <div class="brand" id="pdp-brand">BRAND</div>
-            <h2 id="pdp-title" style="margin: 5px 0; font-size: 18px;">Title</h2>
-            <div class="price" id="pdp-price" style="font-size: 22px; margin-bottom: 15px;">₹0</div>
-            <p style="color:var(--gray); font-size:14px; line-height:1.5;">Authentic premium apparel. Designed for absolute comfort and street-ready aesthetics. 100% genuine product.</p>
+        <img src="" id="pdp-hero-target" class="hero-image">
+        <div class="pdp-body">
+            <div class="item-brand" id="pdp-brand-target">BRAND</div>
+            <h2 id="pdp-title-target" style="margin: 4px 0 8px 0; font-size: 19px; font-weight: 700;">Title</h2>
+            <div class="item-price" id="pdp-price-target" style="font-size: 20px; margin-bottom: 12px;">₹0</div>
+            <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; margin: 0;">Tailored execution using premium knit compositions. Structural integrity matches dynamic streetwear aesthetics. Standard retail specification rules apply.</p>
             
-            <div class="action-btns">
-                <button class="btn-outline" id="pdp-wish-btn" onclick="togglePDPWish()">🤍 Wishlist</button>
-                <button class="btn" onclick="addToBagFromPDP()">ADD TO BAG</button>
+            <div class="pdp-actions">
+                <button class="btn-sub" id="pdp-wishlist-action" onclick="toggleCatalogWishlist()">🤍 Save</button>
+                <button class="btn-prime" onclick="commitItemToBag()">ADD TO BAG</button>
             </div>
         </div>
     </div>
 
-    <!-- WISHLIST PAGE -->
-    <div id="page-wish" class="page">
-        <div class="header"><div style="font-weight:700; font-size:18px;">Wishlist</div></div>
-        <div id="wish-empty" style="text-align:center; padding: 40px 20px; color:var(--gray);">
-            <h2>No favorites yet</h2>
-            <p>Save items you love here.</p>
+    <!-- WISHLIST DATAFRAME MODULE -->
+    <div id="view-wishlist" class="page">
+        <div class="navbar"><div style="font-weight:700; font-size:16px;">Saved Items</div></div>
+        <div id="wishlist-fallback" style="text-align:center; padding: 60px 20px; color: var(--text-muted);">
+            <h3>Collection is empty</h3>
+            <p>Bookmark premium items to view here.</p>
         </div>
-        <div id="wish-list"></div>
+        <div id="container-wishlist"></div>
     </div>
 
-    <!-- BAG PAGE -->
-    <div id="page-bag" class="page">
-        <div class="header"><div style="font-weight:700; font-size:18px;">Shopping Bag</div></div>
+    <!-- SECURE ORDER OBJECT SHEET (BAG) -->
+    <div id="view-bag" class="page">
+        <div class="navbar"><div style="font-weight:700; font-size:16px;">Shopping Bag</div></div>
         
-        <div id="bag-empty" style="text-align:center; padding: 40px 20px; color:var(--gray);">
-            <h2>Bag is empty</h2>
-            <p>Add items from the store.</p>
+        <div id="bag-fallback" style="text-align:center; padding: 60px 20px; color: var(--text-muted);">
+            <h3>Bag is empty</h3>
+            <p>No architecture items detected in checkout stack.</p>
         </div>
 
-        <div id="bag-content" style="display:none;">
-            <div id="bag-list"></div>
+        <div id="bag-operational-flow" style="display:none;">
+            <div id="container-bag-items"></div>
             
-            <div class="coupon-section">
-                <div style="font-weight:700; font-size:12px; color:var(--gray); margin-bottom:8px;">NEW USER VERIFICATION</div>
-                <p style="font-size:12px; margin:0 0 10px 0; line-height:1.4;">To avail the 99% Flash Deal, please enter your Registered Mobile Number as the promo code.</p>
-                <div class="coupon-flex">
-                    <input type="text" id="promo-input" placeholder="Enter Mobile Number">
-                    <button class="apply-btn" onclick="applyPromo()">VERIFY</button>
+            <!-- SEPARATE COUPON BAR SEGMENT -->
+            <div class="promo-trigger-box" onclick="navigateToRoute('view-coupons')">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 18px;">🏷️</span>
+                    <div style="text-align: left;">
+                        <div style="font-size: 13px; font-weight: 700;" id="coupon-status-label">Apply Coupons / Promo Code</div>
+                        <div style="font-size: 11px; color: var(--text-muted);" id="coupon-sub-label">Unlock internal beta promotions</div>
+                    </div>
                 </div>
-                <p id="promo-err" style="color:var(--red); font-size:12px; margin-top:8px; display:none;">Invalid Number. Use registered mobile.</p>
+                <span style="color: var(--text-muted); font-size: 14px;">➔</span>
             </div>
 
-            <div class="bill-box">
-                <h3 style="margin-top:0; font-size:15px;">Order Summary</h3>
-                <div class="b-row"><span>Items Total</span><span id="bill-mrp">₹0</span></div>
-                <div class="b-row"><span>New User Discount</span><span id="bill-disc" class="success">- ₹0</span></div>
-                <div class="b-row"><span>Delivery</span><span class="success">FREE</span></div>
-                <div class="b-row b-total"><span>Grand Total</span><span id="bill-total">₹0</span></div>
+            <div class="invoice-box">
+                <h4 style="margin: 0 0 14px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);">Order Ledger</h4>
+                <div class="invoice-row"><span>Items Valuation</span><span id="ledger-mrp">₹0</span></div>
+                <div class="invoice-row"><span>Promotional Balance</span><span id="ledger-discount" class="success">- ₹0</span></div>
+                <div class="invoice-row"><span>Logistics Allocation</span><span class="success">FREE</span></div>
+                <div class="invoice-row invoice-total"><span>Net Payable</span><span id="ledger-total">₹0</span></div>
             </div>
-
-            <div style="padding: 20px;">
-                <button class="btn" onclick="openAddress()">PROCEED TO CHECKOUT</button>
+            
+            <div style="padding: 16px;">
+                <button class="btn-prime" onclick="evaluateCheckoutPermission()">PROCEED TO CHECKOUT</button>
             </div>
         </div>
     </div>
 
-    <!-- ADDRESS PAGE -->
-    <div id="page-addr" class="page">
-        <div class="header">
-            <div onclick="showPage('page-bag')" style="font-size:22px; cursor:pointer;">←</div>
-            <div style="font-weight:700;">Delivery Address</div>
+    <!-- DEDICATED SEPARATE COUPON SECTION -->
+    <div id="view-coupons" class="page">
+        <div class="navbar">
+            <button class="nav-back" onclick="navigateToRoute('view-bag')">←</button>
+            <div style="font-weight:700; font-size:15px;">Coupons & Promotions</div>
             <div style="width:20px;"></div>
         </div>
-        <div style="padding: 20px; background: #fff;">
-            <div class="form-group">
-                <label>Pincode</label>
-                <input type="number" id="addr-pin" placeholder="Enter 6-digit Pincode">
-            </div>
-            <div class="form-group">
-                <label>Flat, House No., Building</label>
-                <input type="text" id="addr-l1" placeholder="Enter Details">
-            </div>
-            <div class="form-group">
-                <label>Area, Street, Sector</label>
-                <input type="text" id="addr-l2" placeholder="Enter Area">
-            </div>
-            <div style="display:flex; gap:10px;">
-                <div class="form-group" style="flex:1;">
-                    <label>City</label>
-                    <input type="text" id="addr-city" placeholder="City">
+        
+        <div style="padding: 20px 16px 10px 16px;">
+            <div class="form-group" style="margin: 0;">
+                <label class="form-label">Apply Custom Secure Code</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="manual-promo-field" placeholder="Enter alphanumeric code" style="margin: 0;">
+                    <button class="apply-btn" onclick="processCouponValidation()" style="background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: var(--radius-md); font-weight: 700; cursor: pointer;">APPLY</button>
                 </div>
-                <div class="form-group" style="flex:1;">
-                    <label>State</label>
-                    <input type="text" id="addr-state" placeholder="State">
-                </div>
+                <p id="manual-promo-error" style="color: var(--danger); font-size: 12px; margin: 6px 0 0 0; display: none;">Verification token dropped. Code mismatched.</p>
             </div>
-            <button class="btn" style="margin-top:10px;" onclick="placeOrder()">PLACE ORDER & PAY</button>
+        </div>
+
+        <div class="coupon-list">
+            <h4 style="margin: 10px 0; font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Available Offers</h4>
+            
+            <div class="coupon-card" id="card-newuser-deal">
+                <span class="coupon-badge" id="badge-newuser-label">SYSTEM_LOCKED</span>
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Internal New User Loot Voucher</div>
+                <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">To authenticate this token, pass your registered mobile identity string into the form terminal above.</div>
+            </div>
+
+            <div class="coupon-card disabled">
+                <span class="coupon-badge">MIDNIGHT50</span>
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">50% Off Autumn Catalog</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Inactive. Cannot combine with automated clearance parameters.</div>
+            </div>
         </div>
     </div>
 
-    <!-- PRANK PAGE -->
-    <div id="page-prank" class="page no-bottom prank-screen">
-        <div class="prank-icon">🤡</div>
-        <div class="prank-title">ORDER REJECTED</div>
-        <p style="font-size:16px; color:#374151; line-height:1.6; font-weight:500;">
-            Account banaya, wishlist banayi, address bhara... itni mehnat padhai mein kar leta toh IIT mil jata! 😂<br><br>
-            Ye 1₹ ki shopping sapno mein kar aur chup-chaap jaa ke apni <span class="black-book">Black Book</span> solve kar!<br><br>
-            Time waste karna band kar! 📚⏳
+    <!-- SHIPPING TELEMETRY FORM -->
+    <div id="view-shipping" class="page">
+        <div class="navbar">
+            <button class="nav-back" onclick="navigateToRoute('view-bag')">←</button>
+            <div style="font-weight:700; font-size:15px;">Fulfillment Coordinates</div>
+            <div style="width:20px;"></div>
+        </div>
+        <div style="padding: 20px; background: var(--surface);">
+            <div class="form-group"><label class="form-label">Consignee Name</label><input type="text" id="ship-fullname" placeholder="Enter recipient label"></div>
+            <div class="form-group"><label class="form-label">Contact Endpoint</label><input type="tel" id="ship-phone" placeholder="10-digit delivery loop"></div>
+            <div class="form-group"><label class="form-label">Building / Core Suite Infrastructure</label><input type="text" id="ship-l1" placeholder="Flat, House / Plot network"></div>
+            <div class="form-group"><label class="form-label">Street / Spatial Locality</label><input type="text" id="ship-l2" placeholder="Colony, Sector details"></div>
+            <div style="display:flex; gap:10px;">
+                <div class="form-group" style="flex:1;"><label class="form-label">City Node</label><input type="text" id="ship-city" placeholder="City"></div>
+                <div class="form-group" style="flex:1;"><label class="form-label">Regional Code</label><input type="number" id="ship-pincode" placeholder="6 digits"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Geopolitical State</label><input type="text" id="ship-state" placeholder="State Zone"></div>
+            <button class="btn-prime" style="margin-top:10px;" onclick="executeFinalOrderPipeline()">FINALIZE TRANSACTIONS</button>
+        </div>
+    </div>
+
+    <!-- THE LOGIC CORE TERMINATION (PRANK SCREEN) -->
+    <div id="view-prank" class="page no-nav prank-frame">
+        <div class="prank-graphic">🤡</div>
+        <div class="prank-h1">ORDER REJECTED</div>
+        <p style="font-size:15px; color: var(--text-main); line-height: 1.6; font-weight: 500; padding: 0 10px;">
+            Account setup kiya, items ko search kiya, complete address matrix feed kiya... Itni technical dedication integration aur limits ke calculations me dikha deta toh IIT/NIT concrete ho jata! 😂<br><br>
+            Ye online offers ka timepass band kar, screen block kar aur chup-chaap jaake apni <span class="term-highlight">Black Book</span> complete solve karna shuru kar!<br><br>
+            Focus back on your schedule now. 📚⏳
         </p>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav" id="bottom-nav" style="display:none;">
-        <div class="nav-item active" id="nav-home" onclick="showPage('page-home')">
-            <div class="nav-icon">🏠</div> Home
-        </div>
-        <div class="nav-item" id="nav-wish" onclick="showPage('page-wish')">
-            <div class="nav-icon">❤️<div class="badge" id="wish-badge" style="display:none;">0</div></div> Wishlist
-        </div>
-        <div class="nav-item" id="nav-bag" onclick="showPage('page-bag')">
-            <div class="nav-icon">🛍️<div class="badge" id="bag-badge" style="display:none;">0</div></div> Bag
-        </div>
+    <!-- Core Interactive Navigation Hub -->
+    <div class="tab-bar" id="navigation-bar" style="display:none;">
+        <div class="tab-item active" id="tab-home" onclick="navigateToRoute('view-home')"><div class="tab-icon">🏠</div>Shop</div>
+        <div class="tab-item" id="tab-wish" onclick="navigateToRoute('view-wishlist')"><div class="tab-icon">❤️<div class="counter-badge" id="badge-wish" style="display:none;">0</div></div>Saved</div>
+        <div class="tab-item" id="tab-bag" onclick="navigateToRoute('view-bag')"><div class="tab-icon">🛍️<div class="counter-badge" id="badge-bag" style="display:none;">0</div></div>Bag</div>
     </div>
 
 </div>
 
 <script>
-    // --- APP DATA ---
-    let user = null;
-    let cart = [];
-    let wishlist = [];
-    let promoApplied = false;
-    let viewingProduct = null;
+    let sessionUser = null;
+    let userCart = [];
+    let userWishlist = [];
+    let promotionStateApplied = false;
+    let focusedProductInstance = null;
 
-    // 20 High-Quality Generic Fashion Items
-    const products = [
-        { id: 1, brand: "ZURA", title: "Black Oversized Tee", price: 999, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" },
-        { id: 2, brand: "URBAN", title: "Grey Minimalist Sneakers", price: 2499, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" },
-        { id: 3, brand: "AERO", title: "Vintage Denim Jacket", price: 3499, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" },
-        { id: 4, brand: "ZURA", title: "White Classic Polo", price: 1299, img: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=400" },
-        { id: 5, brand: "STREET", title: "Cargo Joggers", price: 1899, img: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=400" },
-        { id: 6, brand: "TIME", title: "Matte Black Chrono Watch", price: 4999, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
-        { id: 7, brand: "URBAN", title: "Yellow Graphic Hoodie", price: 2199, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" },
-        { id: 8, brand: "AERO", title: "Classic Ray Sunglasses", price: 899, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400" },
-        { id: 9, brand: "ZURA", title: "Blue Washed Jeans", price: 2299, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400" },
-        { id: 10, brand: "STREET", title: "Chunky White Sneakers", price: 2999, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" },
-        { id: 11, brand: "URBAN", title: "Olive Bomber Jacket", price: 3199, img: "https://images.unsplash.com/photo-1559551409-dadc959f76b8?w=400" },
-        { id: 12, brand: "ZURA", title: "Striped Resort Shirt", price: 1199, img: "https://images.unsplash.com/photo-1596755094514-f87e32f85e2c?w=400" },
-        { id: 13, brand: "AERO", title: "Leather Duffel Bag", price: 3999, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
-        { id: 14, brand: "STREET", title: "Red Varsity Jacket", price: 4299, img: "https://images.unsplash.com/photo-1551028719-01c1eb56f834?w=400" },
-        { id: 15, brand: "TIME", title: "Silver Steel Watch", price: 5499, img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=400" },
-        { id: 16, brand: "ZURA", title: "Navy Chinos", price: 1699, img: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400" },
-        { id: 17, brand: "URBAN", title: "Beige Trench Coat", price: 5999, img: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=400" },
-        { id: 18, brand: "AERO", title: "Sport Running Shoes", price: 2799, img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400" },
-        { id: 19, brand: "ZURA", title: "Black Leather Belt", price: 699, img: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=400" },
-        { id: 20, brand: "STREET", title: "Graphic Print Longsleeve", price: 1499, img: "https://images.unsplash.com/photo-1618517351616-38fb9c52e0c6?w=400" }
+    // Premium Fashion Catalog Definition (20 Objects)
+    const productCatalogDatabase = [
+        { id: 1, brand: "ZURA ESSENTIALS", title: "Oversized Heavyweight Tee", price: 1299, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" },
+        { id: 2, brand: "KINETIC LABORATORY", title: "Air-Mesh Tech Runners", price: 3499, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" },
+        { id: 3, brand: "RAW SHIELD", title: "Washed Trucker Denim Uniform", price: 4199, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" },
+        { id: 4, brand: "ZURA TAILORED", title: "Structured Pique Polo", price: 1499, img: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=400" },
+        { id: 5, brand: "CORE DIVISION", title: "Technical Cargo System Pants", price: 2899, img: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=400" },
+        { id: 6, brand: "CHRONO ELEMENTS", title: "Stealth Stealth-Black Dial", price: 6500, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
+        { id: 7, brand: "STUDIO UTILITY", title: "Premium Loopback Hoodie", price: 2999, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" },
+        { id: 8, brand: "OPTIX LABS", title: "Polarized Acetate Aviators", price: 1800, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400" },
+        { id: 9, brand: "RAW SHIELD", title: "Relaxed Straight Rigid Denim", price: 3299, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400" },
+        { id: 10, brand: "KINETIC LABORATORY", title: "Court-Classic Leather Lows", price: 3999, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" },
+        { id: 11, brand: "CORE DIVISION", title: "Insulated Flight Bomber", price: 4500, img: "https://images.unsplash.com/photo-1559551409-dadc959f76b8?w=400" },
+        { id: 12, brand: "ZURA ESSENTIALS", title: "Linen Blend Boxy Shirt", price: 1699, img: "https://images.unsplash.com/photo-1596755094514-f87e32f85e2c?w=400" },
+        { id: 13, brand: "CORE DIVISION", title: "Ballistic Nylon Utility Pack", price: 2399, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400" },
+        { id: 14, brand: "STUDIO UTILITY", title: "Satin Finish Varsity Shell", price: 4999, img: "https://images.unsplash.com/photo-1551028719-01c1eb56f834?w=400" },
+        { id: 15, brand: "CHRONO ELEMENTS", title: "Mechanical Oyster Steel Watch", price: 8900, img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=400" },
+        { id: 16, brand: "ZURA TAILORED", title: "Slim Tapered Micro-Chinos", price: 2199, img: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400" },
+        { id: 17, brand: "CORE DIVISION", title: "Double-Breasted Wool Overcoat", price: 7999, img: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=400" },
+        { id: 18, brand: "KINETIC LABORATORY", title: "Performance Trail Knit Shoes", price: 3600, img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400" },
+        { id: 19, brand: "ZURA TAILORED", title: "Full-Grain Dress Belt", price: 1199, img: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=400" },
+        { id: 20, brand: "STUDIO UTILITY", title: "Heavy Interlock French Terry Longsleeve", price: 1999, img: "https://images.unsplash.com/photo-1618517351616-38fb9c52e0c6?w=400" }
     ];
 
-    // --- UI HELPERS ---
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
+    function showFeedbackToast(msg) {
+        const t = document.getElementById('global-toast');
+        t.innerText = msg; t.classList.add('visible');
+        setTimeout(() => t.classList.remove('visible'), 2000);
     }
 
-    function showLoader(msg, time, cb) {
-        document.getElementById('loader-msg').innerText = msg;
-        document.getElementById('loader').style.display = 'flex';
+    function instantiateLoaderState(msg, duration, executionBlock) {
+        document.getElementById('loader-message').innerText = msg;
+        document.getElementById('global-loader').style.display = 'flex';
         setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            if(cb) cb();
-        }, time);
+            document.getElementById('global-loader').style.display = 'none';
+            if(executionBlock) executionBlock();
+        }, duration);
     }
 
-    function showPage(pageId) {
+    function navigateToRoute(routeId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
+        document.getElementById(routeId).classList.add('active');
         
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        if(pageId === 'page-home') document.getElementById('nav-home').classList.add('active');
-        if(pageId === 'page-wish') document.getElementById('nav-wish').classList.add('active');
-        if(pageId === 'page-bag') document.getElementById('nav-bag').classList.add('active');
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        if(routeId === 'view-home') document.getElementById('tab-home').classList.add('active');
+        if(routeId === 'view-wishlist') document.getElementById('tab-wish').classList.add('active');
+        if(routeId === 'view-bag') document.getElementById('tab-bag').classList.add('active');
         
         window.scrollTo(0,0);
-        if(pageId === 'page-bag') renderBag();
-        if(pageId === 'page-wish') renderWishlist();
+        if(routeId === 'view-bag') renderBagContents();
+        if(routeId === 'view-wishlist') renderWishlistContents();
     }
 
-    // --- AUTH LOGIC ---
-    function switchAuth(type) {
-        if(type === 'login') {
-            document.getElementById('tab-login').classList.add('active');
-            document.getElementById('tab-signup').classList.remove('active');
-            document.getElementById('form-login').style.display = 'block';
-            document.getElementById('form-signup').style.display = 'none';
+    function toggleAuthLayout(layout) {
+        if(layout === 'login') {
+            document.getElementById('switch-signin').classList.add('active');
+            document.getElementById('switch-signup').classList.remove('active');
+            document.getElementById('wrapper-login').style.display = 'block';
+            document.getElementById('wrapper-signup').style.display = 'none';
         } else {
-            document.getElementById('tab-signup').classList.add('active');
-            document.getElementById('tab-login').classList.remove('active');
-            document.getElementById('form-signup').style.display = 'block';
-            document.getElementById('form-login').style.display = 'none';
+            document.getElementById('switch-signup').classList.add('active');
+            document.getElementById('switch-signin').classList.remove('active');
+            document.getElementById('wrapper-signup').style.display = 'block';
+            document.getElementById('wrapper-login').style.display = 'none';
         }
     }
 
-    function tryLogin() {
-        showLoader('Verifying...', 1000, () => {
-            alert('Account not found in our system. Please Sign Up as a new user to access the store.');
-            switchAuth('signup');
+    function executeFakeLogin() {
+        instantiateLoaderState('Querying ledger nodes...', 1200, () => {
+            alert('Authentication Fault: Credentials record empty. Please execute structural registration via Sign Up.');
+            toggleAuthLayout('signup');
         });
     }
 
-    function doSignUp() {
-        const name = document.getElementById('reg-name').value;
-        const phone = document.getElementById('reg-phone').value;
-        const pass = document.getElementById('reg-pass').value;
+    function executeRegistration() {
+        const name = document.getElementById('join-name').value.trim();
+        const phone = document.getElementById('join-phone').value.trim();
+        const pass = document.getElementById('join-pass').value.trim();
         
         if(!name || phone.length < 10 || !pass) {
-            alert('Please fill out your Name, valid Mobile Number, and Password.');
+            alert('Data structure parameters failed validation. Enter robust credentials.');
             return;
         }
 
-        user = { name, phone, pass };
-        showLoader('Creating Account...', 1500, () => {
-            document.getElementById('bottom-nav').style.display = 'flex';
-            renderProducts();
-            showPage('page-home');
+        sessionUser = { name, phone, pass };
+        instantiateLoaderState('Provisioning secure cryptographic token...', 1500, () => {
+            document.getElementById('navigation-bar').style.display = 'flex';
+            populateStoreGrid();
+            navigateToRoute('view-home');
         });
     }
 
-    // --- PRODUCT & RENDER LOGIC ---
-    function renderProducts() {
-        const grid = document.getElementById('product-grid');
-        grid.innerHTML = products.map(p => `
-            <div class="card" onclick="openPDP(${p.id})">
-                <img src="${p.img}" class="card-img">
-                <div class="wish-btn-float" onclick="event.stopPropagation(); toggleWish(${p.id})">
-                    ${wishlist.includes(p.id) ? '❤️' : '🤍'}
+    function populateStoreGrid() {
+        const grid = document.getElementById('container-products');
+        grid.innerHTML = productCatalogDatabase.map(p => `
+            <div class="item-card" onclick="routeToPDP(${p.id})">
+                <img src="${p.img}" class="item-img">
+                <div class="wish-toggle" onclick="event.stopPropagation(); triggerWishlistInversion(${p.id})">
+                    ${userWishlist.includes(p.id) ? '❤️' : '🤍'}
                 </div>
-                <div class="card-info">
-                    <div class="brand">${p.brand}</div>
-                    <div class="title">${p.title}</div>
-                    <div class="price">₹${p.price.toLocaleString()}</div>
+                <div class="item-details">
+                    <div class="item-brand">${p.brand}</div>
+                    <div class="item-title">${p.title}</div>
+                    <div class="item-price">₹${p.price.toLocaleString()}</div>
                 </div>
             </div>
         `).join('');
     }
 
-    function toggleWish(id) {
-        if(wishlist.includes(id)) {
-            wishlist = wishlist.filter(w => w !== id);
-            showToast('Removed from Wishlist');
+    function triggerWishlistInversion(id) {
+        if(userWishlist.includes(id)) {
+            userWishlist = userWishlist.filter(w => w !== id);
+            showFeedbackToast('Removed from Collection');
         } else {
-            wishlist.push(id);
-            showToast('Added to Wishlist ❤️');
+            userWishlist.push(id);
+            showFeedbackToast('Saved to Wishlist ❤️');
         }
-        updateBadges();
-        renderProducts();
-        if(document.getElementById('page-pdp').classList.contains('active')) openPDP(viewingProduct.id);
-        if(document.getElementById('page-wish').classList.contains('active')) renderWishlist();
+        refreshControlBadges();
+        populateStoreGrid();
+        if(document.getElementById('view-pdp').classList.contains('active')) routeToPDP(focusedProductInstance.id);
+        if(document.getElementById('view-wishlist').classList.contains('active')) renderWishlistContents();
     }
 
-    function addToBag(id) {
-        cart.push(id);
-        updateBadges();
-        showToast('Item Added to Bag 🛍️');
+    function dispatchItemToCart(id) {
+        userCart.push(id);
+        refreshControlBadges();
+        showFeedbackToast('Dispatched to Order Bag 🛍js');
     }
 
-    function updateBadges() {
-        const wb = document.getElementById('wish-badge');
-        const bb = document.getElementById('bag-badge');
-        wb.style.display = wishlist.length ? 'flex' : 'none';
-        wb.innerText = wishlist.length;
-        bb.style.display = cart.length ? 'flex' : 'none';
-        bb.innerText = cart.length;
+    function refreshControlBadges() {
+        const wb = document.getElementById('badge-wish');
+        const bb = document.getElementById('badge-bag');
+        wb.style.display = userWishlist.length ? 'flex' : 'none';
+        wb.innerText = userWishlist.length;
+        bb.style.display = userCart.length ? 'flex' : 'none';
+        bb.innerText = userCart.length;
     }
 
-    // --- PDP LOGIC ---
-    function openPDP(id) {
-        const p = products.find(x => x.id === id);
-        viewingProduct = p;
-        document.getElementById('pdp-img').src = p.img;
-        document.getElementById('pdp-brand').innerText = p.brand;
-        document.getElementById('pdp-title').innerText = p.title;
-        document.getElementById('pdp-price').innerText = '₹' + p.price.toLocaleString();
-        document.getElementById('pdp-wish-btn').innerHTML = wishlist.includes(p.id) ? '❤️ Wishlisted' : '🤍 Wishlist';
-        showPage('page-pdp');
+    function routeToPDP(id) {
+        const p = productCatalogDatabase.find(x => x.id === id);
+        focusedProductInstance = p;
+        document.getElementById('pdp-hero-target').src = p.img;
+        document.getElementById('pdp-brand-target').innerText = p.brand;
+        document.getElementById('pdp-title-target').innerText = p.title;
+        document.getElementById('pdp-price-target').innerText = '₹' + p.price.toLocaleString();
+        document.getElementById('pdp-wishlist-action').innerHTML = userWishlist.includes(p.id) ? '❤️ Saved' : '🤍 Save';
+        navigateToRoute('view-pdp');
     }
 
-    function goHome() { showPage('page-home'); }
-    function addToBagFromPDP() { addToBag(viewingProduct.id); }
-    function togglePDPWish() { toggleWish(viewingProduct.id); }
+    function commitItemToBag() { dispatchItemToCart(focusedProductInstance.id); }
+    function toggleCatalogWishlist() { triggerWishlistInversion(focusedProductInstance.id); }
 
-    // --- WISHLIST LOGIC ---
-    function renderWishlist() {
-        const list = document.getElementById('wish-list');
-        const empty = document.getElementById('wish-empty');
-        if(!wishlist.length) {
-            empty.style.display = 'block'; list.innerHTML = ''; return;
-        }
-        empty.style.display = 'none';
-        const items = wishlist.map(id => products.find(p => p.id === id));
-        list.innerHTML = items.map(p => `
-            <div class="list-item">
-                <img src="${p.img}" class="list-img">
-                <div class="list-info">
-                    <div class="brand">${p.brand}</div>
-                    <div class="title" style="font-size:15px; font-weight:600; margin-bottom:5px;">${p.title}</div>
-                    <div class="price">₹${p.price.toLocaleString()}</div>
-                    <button class="btn" style="padding:10px; margin-top:10px; font-size:13px;" onclick="addToBag(${p.id})">Move to Bag</button>
+    function renderWishlistContents() {
+        const list = document.getElementById('container-wishlist');
+        const fallback = document.getElementById('wishlist-fallback');
+        if(!userWishlist.length) { fallback.style.display = 'block'; list.innerHTML = ''; return; }
+        fallback.style.display = 'none';
+        const rawObjects = userWishlist.map(id => productCatalogDatabase.find(p => p.id === id));
+        list.innerHTML = rawObjects.map(p => `
+            <div class="line-item">
+                <img src="${p.img}" class="line-img">
+                <div class="line-info">
+                    <div class="item-brand">${p.brand}</div>
+                    <div class="item-title" style="font-size:14px; font-weight:600;">${p.title}</div>
+                    <div class="item-price">₹${p.price.toLocaleString()}</div>
+                    <button class="btn-prime" style="padding:10px; margin-top:10px; font-size:12px; width:fit-content;" onclick="dispatchItemToCart(${p.id})">Move to Bag</button>
                 </div>
             </div>
         `).join('');
     }
 
-    // --- CART & CHECKOUT LOGIC ---
-    function renderBag() {
-        const list = document.getElementById('bag-list');
-        const empty = document.getElementById('bag-empty');
-        const content = document.getElementById('bag-content');
+    function renderBagContents() {
+        const list = document.getElementById('container-bag-items');
+        const fallback = document.getElementById('bag-fallback');
+        const activeFlow = document.getElementById('bag-operational-flow');
         
-        if(!cart.length) {
-            empty.style.display = 'block'; content.style.display = 'none'; return;
-        }
-        empty.style.display = 'none'; content.style.display = 'block';
+        if(!userCart.length) { fallback.style.display = 'block'; activeFlow.style.display = 'none'; return; }
+        fallback.style.display = 'none'; activeFlow.style.display = 'block';
         
-        const items = cart.map(id => products.find(p => p.id === id));
-        list.innerHTML = items.map(p => `
-            <div class="list-item">
-                <img src="${p.img}" class="list-img">
-                <div class="list-info">
-                    <div class="brand">${p.brand}</div>
-                    <div class="title" style="font-size:14px; font-weight:600; margin-bottom:5px;">${p.title}</div>
-                    <div style="font-size:12px; color:var(--gray); margin-bottom:8px;">Qty: 1</div>
-                    <div class="price">₹${p.price.toLocaleString()}</div>
+        const rawObjects = userCart.map(id => productCatalogDatabase.find(p => p.id === id));
+        list.innerHTML = rawObjects.map(p => `
+            <div class="line-item">
+                <img src="${p.img}" class="line-img">
+                <div class="line-info">
+                    <div class="item-brand">${p.brand}</div>
+                    <div class="item-title" style="font-size:14px; font-weight:600; margin-bottom:4px;">${p.title}</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Quantity: 1 Standard</div>
+                    <div class="item-price">₹${p.price.toLocaleString()}</div>
                 </div>
             </div>
         `).join('');
 
-        updateBill();
+        executeLedgerCompilation();
     }
 
-    function applyPromo() {
-        const input = document.getElementById('promo-input').value.trim();
-        const err = document.getElementById('promo-err');
+    /* SEPARATE COUPON LOGIC HANDLER */
+    function processCouponValidation() {
+        const entryToken = document.getElementById('manual-promo-field').value.trim();
+        const errFrame = document.getElementById('manual-promo-error');
         
-        // Validation: Must exactly match his registered phone number
-        if(input === user.phone) {
-            err.style.display = 'none';
-            showLoader('Verifying Account Details...', 1500, () => {
-                promoApplied = true;
-                document.getElementById('promo-input').value = 'NEW USER APPLIED';
-                document.getElementById('promo-input').disabled = true;
-                document.getElementById('promo-input').style.color = '#059669';
-                document.getElementById('promo-input').style.fontWeight = 'bold';
-                updateBill();
+        if(entryToken === sessionUser.phone) {
+            errFrame.style.display = 'none';
+            instantiateLoaderState('Executing runtime token analysis...', 1400, () => {
+                promotionStateApplied = true;
+                
+                // UI Changes inside Coupon Section
+                document.getElementById('manual-promo-field').value = 'PROMO INTEGRATION APPLIED';
+                document.getElementById('manual-promo-field').disabled = true;
+                document.getElementById('manual-promo-field').style.color = 'var(--success)';
+                
+                const masterCard = document.getElementById('card-newuser-deal');
+                masterCard.classList.add('active-discount');
+                document.getElementById('badge-newuser-label').innerText = 'PROMO_SUCCESS';
+                
+                // UI changes inside Bag Section Trigger
+                document.getElementById('coupon-status-label').innerText = 'Voucher Validation Active!';
+                document.getElementById('coupon-status-label').style.color = 'var(--success)';
+                document.getElementById('coupon-sub-label').innerText = 'Cart markdown parameters applied to ledger.';
+                
+                showFeedbackToast('Valuation markdown loaded!');
+                navigateToRoute('view-bag');
             });
         } else {
-            err.style.display = 'block';
+            errFrame.style.display = 'block';
         }
     }
 
-    function updateBill() {
-        const items = cart.map(id => products.find(p => p.id === id));
-        const totalMrp = items.reduce((sum, p) => sum + p.price, 0);
+    function executeLedgerCompilation() {
+        const rawObjects = userCart.map(id => productCatalogDatabase.find(p => p.id === id));
+        const cumulativeMRP = rawObjects.reduce((acc, current) => acc + current.price, 0);
         
-        document.getElementById('bill-mrp').innerText = '₹' + totalMrp.toLocaleString();
+        document.getElementById('ledger-mrp').innerText = '₹' + cumulativeMRP.toLocaleString();
         
-        if(promoApplied) {
-            const discount = totalMrp - 1; // Drops whole cart to 1 rs
-            document.getElementById('bill-disc').innerText = '- ₹' + discount.toLocaleString();
-            document.getElementById('bill-total').innerText = '₹1';
+        if(promotionStateApplied) {
+            const netMarkdown = cumulativeMRP - 1; 
+            document.getElementById('ledger-discount').innerText = '- ₹' + netMarkdown.toLocaleString();
+            document.getElementById('ledger-total').innerText = '₹1';
         } else {
-            document.getElementById('bill-disc').innerText = '- ₹0';
-            document.getElementById('bill-total').innerText = '₹' + totalMrp.toLocaleString();
+            document.getElementById('ledger-discount').innerText = '- ₹0';
+            document.getElementById('ledger-total').innerText = '₹' + cumulativeMRP.toLocaleString();
         }
     }
 
-    function openAddress() {
-        if(!promoApplied) {
-            alert('Please verify your New User promo code first to proceed.');
+    function evaluateCheckoutPermission() {
+        if(!promotionStateApplied) {
+            alert('Ledger Invariant Violation: Route blocked. Open the dedicated Coupons panel and process account validation parameters.');
+            navigateToRoute('view-coupons');
             return;
         }
-        showPage('page-addr');
+        navigateToRoute('view-shipping');
     }
 
-    function placeOrder() {
-        const p = document.getElementById('addr-pin').value;
-        const l1 = document.getElementById('addr-l1').value;
-        const c = document.getElementById('addr-city').value;
-        const s = document.getElementById('addr-state').value;
+    function executeFinalOrderPipeline() {
+        const name = document.getElementById('ship-fullname').value.trim();
+        const city = document.getElementById('ship-city').value.trim();
+        const state = document.getElementById('ship-state').value.trim();
         
-        if(!p || !l1 || !c || !s) {
-            alert('Please complete all delivery address details.');
+        if(!name || !city || !state) {
+            alert('Fulfillment constraints validation failed. Resolve telemetry forms completely.');
             return;
         }
 
-        showLoader('Securing Connection...', 1500, () => {
-            showLoader('Processing ₹1 Payment...', 2000, () => {
-                // THE FINAL PRANK DROP
-                document.getElementById('bottom-nav').style.display = 'none';
-                showPage('page-prank');
+        instantiateLoaderState('Encrypting order packets...', 1500, () => {
+            instantiateLoaderState('Clearing ₹1 localized balance ledger...', 1800, () => {
+                document.getElementById('navigation-bar').style.display = 'none';
+                navigateToRoute('view-prank');
                 document.body.style.background = '#fef2f2';
             });
         });
