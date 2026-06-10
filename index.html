@@ -16,7 +16,6 @@
             min-height: 100vh; 
         }
         
-        /* The main secure card */
         .card { 
             background: white; 
             max-width: 400px; 
@@ -24,12 +23,11 @@
             border-radius: 12px; 
             box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
             overflow: hidden; 
-            min-height: 280px; /* Keeps the card size stable */
+            min-height: 280px; 
             display: flex;
             flex-direction: column;
         }
         
-        /* Secure Header */
         .header { 
             background: #fff; 
             padding: 18px; 
@@ -42,9 +40,9 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
+            transition: all 0.3s ease;
         }
 
-        /* Centered Loading State */
         .content { 
             padding: 40px 24px; 
             text-align: center; 
@@ -54,11 +52,13 @@
             justify-content: center;
             align-items: center;
         }
+        
+        /* Loading Spinner */
         .spinner { 
             width: 36px; 
             height: 36px; 
             border: 3px solid #f3f3f3; 
-            border-top: 3px solid #2874f0; /* Professional Blue */
+            border-top: 3px solid #2874f0; 
             border-radius: 50%; 
             animation: spin 1s linear infinite; 
             margin-bottom: 24px; 
@@ -66,21 +66,69 @@
         .status { font-size: 15px; color: #444; font-weight: 500; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Prank State */
-        #prank-content { display: none; padding: 40px 24px; text-align: center; }
-        .prank-icon { font-size: 56px; margin-bottom: 16px; }
-        .prank-title { color: #d32f2f; font-size: 26px; font-weight: 900; margin-bottom: 12px; line-height: 1.2; }
-        .prank-text { color: #444; font-size: 16px; line-height: 1.6; }
-        .highlight { background: #ffeb3b; padding: 2px 6px; font-weight: bold; border-radius: 4px; color: #000; }
+        /* Creative Prank State */
+        #prank-content { display: none; padding: 30px 24px; text-align: center; animation: slideUp 0.5s ease-out; }
+        
+        .prank-icon { 
+            font-size: 50px; 
+            margin-bottom: 10px; 
+            animation: pop 0.4s ease-in-out alternate infinite; 
+        }
+        
+        .prank-title { color: #d32f2f; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
+        
+        /* Fake Receipt */
+        .receipt-box {
+            background: #fafafa;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .receipt-row.bold { font-weight: bold; color: #111; }
+        .receipt-row.failed { color: #d32f2f; font-weight: bold; }
+        .receipt-divider {
+            border-top: 1px dashed #ddd;
+            margin: 12px 0;
+        }
+
+        .prank-text { color: #555; font-size: 15px; line-height: 1.5; margin-bottom: 20px; }
+        
+        /* Fake Button */
+        .trap-btn {
+            background: #2874f0;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(40, 116, 240, 0.2);
+            transition: transform 0.1s;
+        }
+        .trap-btn:active { transform: scale(0.98); }
+
+        @keyframes pop { from { transform: scale(1); } to { transform: scale(1.1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <!-- Padlock Icon for Security feel -->
+        <!-- Secure Header -->
         <div class="header" id="app-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            Processing Offer Link
+            <svg id="header-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span id="header-text">Processing Offer Link</span>
         </div>
         
         <div class="content" id="loading-state">
@@ -88,18 +136,41 @@
             <div class="status" id="status-text">Initializing secure connection...</div>
         </div>
 
+        <!-- The Creative Prank Reveal -->
         <div id="prank-content">
             <div class="prank-icon">🤡</div>
-            <div class="prank-title">PADHAI KAR LE BHAI!</div>
-            <div class="prank-text">
-                Bada aaya ₹1 ka offer lootne wala.<br><br>
-                Ye timepass band kar aur chup-chaap jaa ke apni <span class="highlight">Black Book</span> solve kar! 📚⏳
+            <div class="prank-title">Transaction Failed!</div>
+            
+            <div class="receipt-box">
+                <div class="receipt-row bold">
+                    <span>Customer:</span> <span>Ishant</span>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-row">
+                    <span>Item:</span> <span>₹1 Secret Clothing Deal</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Status:</span> <span class="failed">CANCELLED ❌</span>
+                </div>
+                <div class="receipt-row">
+                    <span>Reason:</span> <span>Padhai nahi ho rahi hai</span>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="receipt-row bold">
+                    <span>Recommended Item:</span> <span>Balaji Black Book 📚</span>
+                </div>
             </div>
+
+            <div class="prank-text">
+                Ishant bhai, bada aaya ₹1 ka offer lootne wala. Ye timepass band kar aur chup-chaap baith ke limits aur integration solve kar! ⏳
+            </div>
+
+            <button class="trap-btn" onclick="triggerTrap()">Try Again</button>
         </div>
     </div>
 
     <script>
-        // Professional step-by-step text updating to build suspense
+        // Professional step-by-step text updating
         const statuses = [
             "Initializing secure connection...",
             "Verifying user account eligibility...",
@@ -118,18 +189,24 @@
             } else {
                 clearInterval(interval);
                 
-                // Switch out the UI for the prank reveal
+                // Show Prank UI
                 document.getElementById('loading-state').style.display = 'none';
                 document.getElementById('prank-content').style.display = 'block';
                 
-                // Change header to warning colors
+                // Update Header to Warning Mode
                 const header = document.getElementById('app-header');
-                header.innerHTML = '⚠️ Reality Check';
+                document.getElementById('header-text').innerText = 'Reality Check';
+                document.getElementById('header-icon').innerHTML = '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>';
                 header.style.backgroundColor = '#ffebee';
                 header.style.color = '#d32f2f';
                 header.style.borderBottom = 'none';
             }
-        }, 1800); // Cycles through the text every 1.8 seconds for a realistic loading feel
+        }, 1800); 
+
+        // The clean interactive button trap
+        function triggerTrap() {
+            alert("Ishant bhai, abhi bhi offer chahiye kya? 🤦‍♂️\n\nScreen band kar aur shanti se apni padhai karne baith ja!");
+        }
     </script>
 
 </body>
