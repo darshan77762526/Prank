@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive 1₹ Loot Offer</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #fake-loading {
+            font-size: 1.5rem;
+            color: #ff3f6c; 
+            font-weight: bold;
+        }
+        #prank-text {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .main-message {
+            font-size: 3rem;
+            color: #d9534f;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .sub-message {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .roast-message {
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .spinner {
+            margin: 20px auto;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top-color: #ff3f6c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 
+            100% { transform: rotate(360deg); } 
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="fake-loading">
+        <div class="spinner"></div>
+        <p>Activating 1₹ Clothing Loot...</p>
+        <p style="font-size: 1rem; color: #666; font-weight: normal;">Please wait, verifying your eligibility...</p>
+    </div>
+
+    <div id="prank-text">
+        <div class="main-message">🎉 SURPRISE! 🎉</div>
+        <div class="sub-message">PADHAI KAR LE BHAI 😂</div>
+        <div class="roast-message">
+            1₹ ke kapde pehen ke IIT/NIT nahi jaate.<br>
+            Offer ka kya karega? Jaa ke chup-chaap apni <strong>Black Book</strong> solve kar! 📚✍️
+        </div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('fake-loading').style.display = 'none';
+            document.getElementById('prank-text').style.display = 'block';
+            document.body.style.backgroundColor = "#e8f4f8"; 
+        }, 3500);
+    </script>
+
+</body>
+</html>
