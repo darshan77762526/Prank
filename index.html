@@ -3,92 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exclusive 1₹ Loot Offer</title>
+    <title>Exclusive ₹1 Flash Sale</title>
     <style>
         body {
-            background-color: #f4f4f4;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f1f3f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Fake E-commerce Header */
+        .header {
+            background-color: #2874f0; /* Flipkart style blue */
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-brand {
+            font-size: 18px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        /* Main Container */
+        .container {
+            background-color: white;
+            margin: 15px;
+            border-radius: 6px;
+            padding: 25px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             text-align: center;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        /* Loading UI */
+        #loading-screen {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+        }
+        .product-preview {
+            border: 1px solid #e0e0e0;
             padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 320px;
             box-sizing: border-box;
         }
-        #fake-loading {
-            font-size: 1.5rem;
-            color: #ff3f6c; 
+        .price-tag {
+            font-size: 28px;
             font-weight: bold;
+            color: #388e3c;
+            margin: 10px 0;
         }
-        #prank-text {
+        .strike {
+            text-decoration: line-through;
+            color: #878787;
+            font-size: 16px;
+            margin-left: 8px;
+        }
+        .progress-container {
+            width: 100%;
+            max-width: 300px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0 10px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 6px;
+            width: 0%;
+            background-color: #2874f0;
+            transition: width 0.8s ease;
+        }
+        .status-text {
+            color: #878787;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Prank UI */
+        #prank-screen {
             display: none;
-            animation: fadeIn 0.5s ease-in;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .main-message {
-            font-size: 3rem;
-            color: #d9534f;
+        .alert-icon {
+            font-size: 65px;
+            margin-bottom: 10px;
+        }
+        .prank-title {
+            font-size: 32px;
             font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 15px;
+            color: #ff3333;
+            margin-bottom: 5px;
         }
-        .sub-message {
-            font-size: 1.5rem;
+        .prank-subtitle {
+            font-size: 20px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 25px;
+        }
+        .roast-box {
+            background-color: #fff9e6;
+            border-left: 5px solid #ffc107;
+            padding: 18px;
+            text-align: left;
+            border-radius: 6px;
+            font-size: 16px;
             color: #333;
-            font-weight: 600;
+            line-height: 1.6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .roast-message {
-            font-size: 1.2rem;
-            color: #666;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        .black-book {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 17px;
         }
-        .spinner {
-            margin: 20px auto;
-            width: 50px;
-            height: 50px;
-            border: 5px solid #ccc;
-            border-top-color: #ff3f6c;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 
-            100% { transform: rotate(360deg); } 
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <div id="fake-loading">
-        <div class="spinner"></div>
-        <p>Activating 1₹ Clothing Loot...</p>
-        <p style="font-size: 1rem; color: #666; font-weight: normal;">Please wait, verifying your eligibility...</p>
+    <!-- Fake E-commerce Header -->
+    <div class="header">
+        <div>☰ &nbsp;&nbsp; <span class="header-brand">MegaDealz</span></div>
+        <div>🛒</div>
     </div>
 
-    <div id="prank-text">
-        <div class="main-message">🎉 SURPRISE! 🎉</div>
-        <div class="sub-message">PADHAI KAR LE BHAI 😂</div>
-        <div class="roast-message">
-            1₹ ke kapde pehen ke IIT/NIT nahi jaate.<br>
-            Offer ka kya karega? Jaa ke chup-chaap apni <strong>Black Book</strong> solve kar! 📚✍️
+    <div class="container">
+        
+        <!-- Fake Loading Phase -->
+        <div id="loading-screen">
+            <div class="product-preview">
+                <div style="font-size: 45px;">👕</div>
+                <h3 style="margin: 15px 0 5px 0; font-size: 18px; color: #212121;">Premium Graphic T-Shirt</h3>
+                <div class="price-tag">₹1 <span class="strike">₹1,999</span></div>
+                <div style="color: #ff4444; font-size: 13px; font-weight: 600; margin-top: 8px;">🔥 Hurry! Only 2 left in stock</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="p-bar"></div>
+            </div>
+            <div class="status-text" id="status-message">Connecting to secure server...</div>
         </div>
+
+        <!-- Prank Reveal Phase -->
+        <div id="prank-screen">
+            <div class="alert-icon">🤡</div>
+            <div class="prank-title">SCAMMED!</div>
+            <div class="prank-subtitle">PADHAI KAR LE BHAI 😂</div>
+            
+            <div class="roast-box">
+                Bhai 1₹ me aaj kal chillar nahi milti, tu yahan 1₹ ki deal dhund raha hai?<br><br>
+                Ye timepass band kar, aur chup-chaap jaa ke apni <span class="black-book">Black Book</span> utha aur solve karna chaalu kar! 📚⏳
+            </div>
+        </div>
+
     </div>
 
     <script>
+        const progressBar = document.getElementById('p-bar');
+        const statusMessage = document.getElementById('status-message');
+        const loadingScreen = document.getElementById('loading-screen');
+        const prankScreen = document.getElementById('prank-screen');
+
+        // Dynamic Loading Sequence to make it look super legit
         setTimeout(() => {
-            document.getElementById('fake-loading').style.display = 'none';
-            document.getElementById('prank-text').style.display = 'block';
-            document.body.style.backgroundColor = "#e8f4f8"; 
-        }, 3500);
+            progressBar.style.width = '35%';
+            statusMessage.innerText = 'Applying ₹1,998 discount code...';
+        }, 1200);
+
+        setTimeout(() => {
+            progressBar.style.width = '75%';
+            statusMessage.innerText = 'Reserving item in your cart...';
+        }, 3000);
+
+        setTimeout(() => {
+            progressBar.style.width = '95%';
+            statusMessage.innerText = 'Redirecting to payment gateway...';
+        }, 4500);
+
+        // The Drop (Prank Reveal)
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            prankScreen.style.display = 'block';
+            document.body.style.backgroundColor = '#ffe6e6'; // Turns background a light warning red
+        }, 6000); // Takes exactly 6 seconds to build massive suspense
     </script>
 
 </body>
