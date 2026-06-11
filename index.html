@@ -137,24 +137,24 @@
             </div>
         </div>
 
-        <!-- OFFERS MODULE -->
+        <!-- NEW REALISTIC OFFERS MODULE -->
         <div id="view-offers" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 40px auto;">
-                <h2 style="margin-bottom: 20px;">Bundle & Flash Offers</h2>
+                <h2 style="margin-bottom: 20px;">Welcome Offers</h2>
                 
                 <div class="offer-card" id="offer-locked">
-                    <div class="badge-tag" style="background: var(--primary); color: white;">NEW USER LOOT</div>
-                    <h3 style="margin: 15px 0 10px 0;">Unlock Entire Cart for ₹1</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Verify your registered mobile number below to generate your unique flash deal token.</p>
+                    <div class="badge-tag" style="background: var(--primary); color: white;">FIRST PURCHASE</div>
+                    <h3 style="margin: 15px 0 10px 0;">Flat ₹3,000 OFF</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Verify your registered mobile number below to claim your exclusive welcome voucher. Cart values under ₹3000 receive an instant 99% discount.</p>
                     <input type="tel" id="verify-phone" placeholder="Registered Mobile Number" style="margin-bottom: 15px; width: 100%;">
-                    <button class="btn-dark" onclick="generateRandomCode()">GENERATE COUPON</button>
+                    <button class="btn-dark" onclick="generateRandomCode()">VERIFY & GET CODE</button>
                     <p id="offer-err" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Number not recognized. Please sign in or register first.</p>
                 </div>
 
                 <div class="offer-card" id="offer-unlocked" style="display: none; border: 2px solid #10b981; background: #f0fdf4;">
                     <div class="badge-tag" style="background: #10b981; color: white;">VERIFIED</div>
-                    <h3 style="margin: 15px 0 10px 0;">Token Generated Successfully</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">Apply this exact code in your cart to drop your total to ₹1.</p>
+                    <h3 style="margin: 15px 0 10px 0;">Voucher Generated Successfully</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Copy and apply this exact code in your shopping cart to redeem your discount.</p>
                     <div class="generated-code" id="display-random-code">XXXX-XXXX-XXXX</div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                         <input type="text" id="manual-promo-field" placeholder="Enter code">
                         <button class="btn-dark" style="width: auto; padding: 0 30px;" onclick="processCouponValidation()">APPLY</button>
                     </div>
-                    <p id="manual-promo-error" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Invalid code or limit exceeded (Max 2 items).</p>
+                    <p id="manual-promo-error" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Invalid code or limit exceeded.</p>
                 </div>
 
                 <div class="invoice-box">
@@ -230,7 +230,8 @@
                     <div><strong>Cash on Delivery (COD)</strong></div>
                 </div>
 
-                <button class="btn-dark" style="margin-top: 30px;" onclick="processFinalPayment()">PAY ₹1 & PLACE ORDER</button>
+                <!-- Dynamic Final Payment Button -->
+                <button class="btn-dark" id="btn-pay-final" style="margin-top: 30px;" onclick="processFinalPayment()">PAY & PLACE ORDER</button>
             </div>
         </div>
 
@@ -239,19 +240,18 @@
             <div class="prank-frame" style="background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; max-width: 600px; margin: 80px auto; padding: 60px 20px;">
                 <div style="font-size: 80px; color: #10b981; margin-bottom: 20px;">✓</div>
                 <h1 style="color: #065f46; font-size: 32px; margin-bottom: 10px;">ORDER CONFIRMED</h1>
-                <p style="font-size: 16px; color: #047857;">Your payment of ₹1 has been successfully processed. Generating shipping label...</p>
+                <p style="font-size: 16px; color: #047857;">Your payment has been successfully processed. Generating shipping label...</p>
             </div>
         </div>
 
         <!-- PRANK MODULE -->
         <div id="view-prank" class="page">
-            <div class="prank-frame" style="max-width: 700px; margin: 60px auto;">
+            <div class="prank-frame">
                 <div class="prank-graphic">🤡</div>
-                <h1 style="color: var(--danger); font-size: 36px; margin-bottom: 20px;">ORDER REJECTED</h1>
+                <h1 style="color: var(--danger); font-size: 32px; margin-bottom: 20px;">ORDER REJECTED</h1>
                 <p style="font-size:18px; color: var(--text-main); line-height: 1.6; max-width: 600px; margin: 0 auto;">
-                    Account banaya, offers check kiye, random code generate kiya, 4 photos dekhi, address bhara, UPI select kiya... aur jab "Order Confirmed" likha aaya toh kitni khushi hui na? 😂<br><br>
-                    Itni mehnat aur focus agar padhai me lagata toh pakka IIT mil jata!<br><br>
-                    Koi ₹1 ki shopping nahi chal rahi yahan. Chup-chaap screen band kar aur apni <span style="background: #fef08a; padding: 2px 8px; font-weight: bold; color: black;">Black Book</span> solve karna shuru kar!<br><br>
+                    Account banaya, offers check kiye, random code generate kiya, cart me discount lagaya, address bhara... Itni mehnat aur focus agar apni studies me lagata toh top maar leta! 😂<br><br>
+                    Koi free ki shopping nahi chal rahi yahan. Chup-chaap screen band kar aur apni <span style="background: #fef08a; padding: 2px 8px; font-weight: bold;">Black Book</span> solve karna shuru kar!<br><br>
                     Back to reality. 📚⏳
                 </p>
             </div>
