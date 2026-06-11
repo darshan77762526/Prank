@@ -1,3 +1,4 @@
+
 let sessionUser = null;
 let userCart = [];
 let userWishlist = [];
@@ -6,6 +7,7 @@ let promotionApplied = false;
 let currentPaymentMethod = 'UPI';
 let focusedProductInstance = null;
 
+// Cleaned up highly-reliable image variants that match EXACTLY
 const catalog = [
     { 
         id: 1, section: "1299", badge: "Trending", title: "Performance Knit Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 12, 
@@ -16,11 +18,11 @@ const catalog = [
         ] 
     },
     { 
-        id: 2, section: "1299", badge: "Trending", title: "Bow Slingback Stiletto Heels Floral", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.5", revCount: 58, 
+        id: 2, section: "1299", badge: "Trending", title: "Bow Slingback Stiletto Heels", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.5", revCount: 58, 
         variants: [
-            { color: "Blue Floral", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80" },
             { color: "Black", img: "https://images.unsplash.com/photo-1562183241-b937e95585b6?auto=format&fit=crop&w=600&q=80" },
-            { color: "Cherry", img: "https://images.unsplash.com/photo-1596455607563-ad6193f76b17?auto=format&fit=crop&w=600&q=80" }
+            { color: "Cherry", img: "https://images.unsplash.com/photo-1596455607563-ad6193f76b17?auto=format&fit=crop&w=600&q=80" },
+            { color: "Blue", img: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80" }
         ] 
     },
     { 
@@ -32,7 +34,7 @@ const catalog = [
         ] 
     },
     { 
-        id: 4, section: "1299", badge: "Trending", title: "White & Orange Sport Sneakers", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.8", revCount: 66, 
+        id: 4, section: "1299", badge: "Trending", title: "Sport Running Sneakers", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.8", revCount: 66, 
         variants: [
             { color: "White/Orange", img: "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?auto=format&fit=crop&w=600&q=80" },
             { color: "Grey/Black", img: "https://images.unsplash.com/photo-1581452202624-9b57b9e02fb8?auto=format&fit=crop&w=600&q=80" }
@@ -76,8 +78,8 @@ const catalog = [
     { 
         id: 10, section: "clothing", badge: "Trending", title: "White Fitted Shirt", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.9", revCount: 15, 
         variants: [
-            { color: "White", img: "https://images.unsplash.com/photo-1596755094514-f87e32f85e2c?auto=format&fit=crop&w=600&q=80" },
-            { color: "Black", img: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=600&q=80" }
+            { color: "White", img: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=600&q=80" },
+            { color: "Black", img: "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=600&q=80" }
         ] 
     },
     { 
@@ -123,19 +125,17 @@ function navigateToRoute(routeId) {
 function initCountdown() {
     const now = new Date();
     const target = new Date();
-    target.setHours(18, 0, 0, 0); // Set to 6:00:00 PM today
+    target.setHours(18, 0, 0, 0); // 6:00 PM today
 
     const offerCountdownState = document.getElementById('offer-countdown-state');
     const offerLockedState = document.getElementById('offer-locked');
 
-    // If it's already past 6 PM, show the sale immediately
     if (now >= target) {
         if(offerCountdownState) offerCountdownState.style.display = 'none';
         if(offerLockedState) offerLockedState.style.display = 'block';
         return;
     }
 
-    // Otherwise, start the countdown
     const timer = setInterval(() => {
         const currentTime = new Date();
         const diff = target - currentTime;
@@ -166,7 +166,7 @@ window.onload = () => {
     renderGrid("1299", 'grid-1299');
     renderGrid("999", 'grid-999');
     renderGrid("clothing", 'grid-clothing');
-    initCountdown(); // Initialize the 6 PM timer
+    initCountdown();
 };
 
 function renderGrid(section, elementId) {
@@ -229,7 +229,6 @@ function openPDP(id) {
     document.getElementById('pdp-mrp-target').innerText = '₹' + p.mrp;
     document.getElementById('pdp-rating-num').innerText = p.rating;
     document.getElementById('pdp-rev-count').innerText = "⌄ " + p.revCount + " reviews";
-    document.getElementById('pdp-review-title').innerText = "Reviews for " + p.title;
     
     document.getElementById('pdp-colors-target').innerHTML = p.variants.map((v, idx) => `
         <div class="color-box ${idx === 0 ? 'active' : ''}" onclick="selectColor('${v.img}', this)">${v.color}</div>
@@ -459,8 +458,7 @@ function processFinalPayment() {
 
     showLoader(loader1, 1500, () => {
         showLoader('Processing Secure Transaction...', 2000, () => {
-            
-            // Show Success Screen First
+            // First show Success Screen
             navigateToRoute('view-success');
             document.querySelector('.site-header').style.display = 'none';
             document.querySelector('.top-promo-strip').style.display = 'none';
