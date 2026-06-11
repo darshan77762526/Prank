@@ -8,16 +8,19 @@
 </head>
 <body>
 
+    <!-- GLOBAL UI ELEMENTS -->
     <div class="ui-toast" id="global-toast">Added to cart</div>
     <div class="global-loader" id="global-loader">
         <div class="spin-wheel"></div>
         <p id="loader-message">Please wait...</p>
     </div>
 
+    <!-- PROMO STRIP -->
     <div class="top-promo-strip">
         GET FREE STOCKINGS WORTH ₹300 ON PREPAID ORDERS →
     </div>
 
+    <!-- MAIN HEADER -->
     <header class="site-header">
         <div class="header-inner">
             <div class="brand-logo" onclick="navigateToRoute('view-home')">JM LOOKS</div>
@@ -34,17 +37,17 @@
 
             <div class="header-icons">
                 <div class="icon-btn" onclick="navigateToRoute('view-offers')" title="Offers">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
                 </div>
                 <div class="icon-btn" onclick="navigateToRoute('view-auth')" title="Profile">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </div>
                 <div class="icon-btn" onclick="navigateToRoute('view-wishlist')" title="Wishlist">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                     <span class="badge" id="badge-wish" style="display:none;">0</span>
                 </div>
                 <div class="icon-btn" onclick="navigateToRoute('view-bag')" title="Cart">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                     <span class="badge" id="badge-bag" style="display:none;">0</span>
                 </div>
             </div>
@@ -53,6 +56,7 @@
 
     <div class="main-content-area">
         
+        <!-- AUTH MODULE -->
         <div id="view-auth" class="page">
             <div class="auth-container">
                 <h2 style="font-size: 28px; margin-bottom: 10px;">Login / Register</h2>
@@ -64,6 +68,7 @@
             </div>
         </div>
 
+        <!-- HOME / SHOP MODULE -->
         <div id="view-home" class="page active">
             
             <div class="section-title"><h2>2 FOR 1299</h2><a href="#" onclick="showToast('Loading all items...')">View All</a></div>
@@ -81,6 +86,7 @@
             </div>
         </div>
 
+        <!-- PRODUCT DETAIL PAGE (PDP) -->
         <div id="view-pdp" class="page">
             <div class="pdp-layout">
                 <div class="pdp-images">
@@ -123,6 +129,7 @@
                 </div>
             </div>
 
+            <!-- PRO REVIEWS SECTION -->
             <div class="reviews-section">
                 <h2 id="pdp-review-title">Reviews</h2>
                 <div class="review-stats">
@@ -141,10 +148,12 @@
             </div>
         </div>
 
+        <!-- TIMED OFFERS MODULE -->
         <div id="view-offers" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 40px auto;">
                 <h2 style="margin-bottom: 20px;">Flash Sale Event</h2>
                 
+                <!-- COUNTDOWN STATE (Shows before 6:00 PM) -->
                 <div class="offer-card" id="offer-countdown-state">
                     <div class="badge-tag" style="background: var(--danger); color: white;">UPCOMING SALE</div>
                     <h3 style="margin: 15px 0 10px 0;">99% OFF Mega Sale</h3>
@@ -159,6 +168,7 @@
                     </div>
                 </div>
 
+                <!-- ACTIVE STATE (Shows exactly at 6:00 PM) -->
                 <div class="offer-card" id="offer-locked" style="display: none;">
                     <div class="badge-tag" style="background: var(--primary); color: white; animation: blink 1s infinite;">SALE LIVE - 14 SLOTS LEFT</div>
                     <h3 style="margin: 15px 0 10px 0;">Claim 99% OFF</h3>
@@ -168,6 +178,7 @@
                     <p id="offer-err" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Number not recognized. Please sign in or register first.</p>
                 </div>
 
+                <!-- SUCCESS STATE -->
                 <div class="offer-card" id="offer-unlocked" style="display: none; border: 2px solid #10b981; background: #f0fdf4;">
                     <div class="badge-tag" style="background: #10b981; color: white;">VERIFIED</div>
                     <h3 style="margin: 15px 0 10px 0;">Voucher Generated Successfully</h3>
@@ -177,6 +188,7 @@
             </div>
         </div>
 
+        <!-- WISHLIST MODULE -->
         <div id="view-wishlist" class="page">
             <div class="section-title"><h2>Your Wishlist</h2></div>
             <div id="wishlist-fallback" class="empty-state">
@@ -187,6 +199,7 @@
             <div class="product-grid" id="container-wishlist" style="padding: 0 25px;"></div>
         </div>
 
+        <!-- CART MODULE -->
         <div id="view-bag" class="page">
             <div id="bag-fallback" class="empty-state" style="margin-top: 50px;">
                 <h1 style="font-size: 32px; font-weight: 400; margin-bottom: 20px;">Your cart is empty</h1>
@@ -217,6 +230,7 @@
             </div>
         </div>
 
+        <!-- SHIPPING & PAYMENT MODULE -->
         <div id="view-checkout" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 0 auto;">
                 <h2>Shipping Details</h2>
@@ -248,6 +262,7 @@
             </div>
         </div>
 
+        <!-- SUCCESS CONFIRMATION MODULE -->
         <div id="view-success" class="page">
             <div class="prank-frame" style="background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; max-width: 600px; margin: 80px auto; padding: 60px 20px;">
                 <div style="font-size: 80px; color: #10b981; margin-bottom: 20px;">✓</div>
@@ -256,6 +271,7 @@
             </div>
         </div>
 
+        <!-- PRANK MODULE -->
         <div id="view-prank" class="page">
             <div class="prank-frame">
                 <div class="prank-graphic">🤡</div>
