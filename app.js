@@ -21,7 +21,7 @@ try {
     userWishlist = [];
 }
 
-// 100% GENUINE STUDIO CATALOG: All mountains and fake-looking shots removed.
+// 100% GENUINE STUDIO CATALOG: All laptops, mountains, and fake-looking shots removed.
 const catalog = [
     { 
         id: 1, section: "1299", badge: "Trending", title: "Sport Running Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 112, 
@@ -66,7 +66,6 @@ const catalog = [
         ] 
     },
     { 
-        // REPLACED: Casual Trousers instead of the fake-looking high-tops
         id: 7, section: "999", badge: "Trending", title: "Casual Wide-Leg Trousers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.8", revCount: 41, 
         variants: [
             { color: "Beige", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=600&q=80" },
@@ -74,18 +73,18 @@ const catalog = [
         ] 
     },
     { 
-        // REPLACED: Cotton T-Shirt instead of the landscape mountain photo
+        // FIXED: Laptop photo removed, replaced with a genuine white/black T-Shirt
         id: 8, section: "999", badge: "Trending", title: "Oversized Cotton T-Shirt", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "5.0", revCount: 28, 
         variants: [
-            { color: "Blush Pink", img: "https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&w=600&q=80" },
-            { color: "White", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80" }
+            { color: "White", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80" },
+            { color: "Black", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80" }
         ] 
     },
     { 
         id: 9, section: "clothing", badge: "Trending", title: "Essential Cropped T-Shirt", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.9", revCount: 134, 
         variants: [
-            { color: "Black", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80" },
-            { color: "White", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80" }
+            { color: "Grey", img: "https://images.unsplash.com/photo-1550639525-c97d455acf70?auto=format&fit=crop&w=600&q=80" },
+            { color: "White", img: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=600&q=80" }
         ] 
     },
     { 
