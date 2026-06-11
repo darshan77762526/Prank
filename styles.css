@@ -48,7 +48,7 @@ body { margin: 0; background: var(--background); color: var(--text-main); }
 .tag-deal { background: #fbcfe8; color: #be185d; margin-top: 10px; display: inline-block; font-size: 11px; font-weight: 600; padding: 4px 8px; }
 
 .wish-float { position: absolute; top: 10px; right: 10px; background: white; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; color: var(--text-muted);}
-.wish-float.active { color: var(--danger); fill: var(--danger); }
+.wish-float.active { color: var(--danger); }
 .card-title { font-size: 14px; margin: 10px 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-rating { font-size: 12px; font-weight: bold; background: white; border: 1px solid var(--border); display: inline-block; padding: 2px 6px; position: absolute; bottom: 90px; left: 10px; border-radius: 4px;}
 .card-price { font-size: 16px; font-weight: 700; }
