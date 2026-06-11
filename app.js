@@ -7,7 +7,6 @@ let promotionApplied = false;
 let currentPaymentMethod = 'UPI';
 let focusedProductInstance = null;
 
-// Cleaned up highly-reliable image variants that match EXACTLY
 const catalog = [
     { 
         id: 1, section: "1299", badge: "Trending", title: "Performance Knit Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 12, 
@@ -121,11 +120,10 @@ function navigateToRoute(routeId) {
     if(routeId === 'view-wishlist') renderWishlistContents();
 }
 
-// 6:00 PM FLASH SALE LOGIC
 function initCountdown() {
     const now = new Date();
     const target = new Date();
-    target.setHours(18, 0, 0, 0); // 6:00 PM today
+    target.setHours(18, 0, 0, 0); 
 
     const offerCountdownState = document.getElementById('offer-countdown-state');
     const offerLockedState = document.getElementById('offer-locked');
@@ -198,6 +196,7 @@ function renderGrid(section, elementId) {
     }).join('');
 }
 
+// FIXED: Cleaned up account registration flow to swap input view with a premium dashboard panel
 function executeRegistration() {
     const name = document.getElementById('join-name').value.trim();
     const phone = document.getElementById('join-phone').value.trim();
@@ -207,10 +206,21 @@ function executeRegistration() {
         alert('Please fill out all fields.');
         return;
     }
+    
     sessionUser = { name, phone, pass };
-    showLoader('Logging in securely...', 1000, () => {
+    
+    showLoader('Logging in securely...', 1200, () => {
+        // Feed text elements into profile display nodes
+        document.getElementById('profile-name-display').innerText = name;
+        document.getElementById('profile-phone-display').innerText = phone;
+        document.getElementById('profile-avatar-letters').innerText = name.charAt(0).toUpperCase();
+
+        // Swap terminal states cleanly
+        document.getElementById('auth-unregistered-state').style.display = 'none';
+        document.getElementById('auth-registered-state').style.display = 'block';
+        
         navigateToRoute('view-home');
-        showToast('Logged in successfully');
+        showToast('Account Synced successfully');
     });
 }
 
@@ -458,13 +468,11 @@ function processFinalPayment() {
 
     showLoader(loader1, 1500, () => {
         showLoader('Processing Secure Transaction...', 2000, () => {
-            // First show Success Screen
             navigateToRoute('view-success');
             document.querySelector('.site-header').style.display = 'none';
             document.querySelector('.top-promo-strip').style.display = 'none';
             document.body.style.background = '#ecfdf5';
 
-            // Wait exactly 1.0 seconds, then drop the prank
             setTimeout(() => {
                 navigateToRoute('view-prank');
                 document.body.style.background = '#fef2f2';
