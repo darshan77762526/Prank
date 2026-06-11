@@ -99,6 +99,13 @@ input:focus { border-color: var(--primary); }
 .btn-dark:active { transform: scale(0.98); }
 .btn-light { width: 100%; background: white; color: var(--primary); border: 1px solid var(--primary); padding: 15px; font-size: 14px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
 
+/* COUNTDOWN TIMERS */
+.countdown-timer { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 25px 0; }
+.time-box { background: #f9fafb; border: 1px solid var(--border); border-radius: 8px; padding: 15px; min-width: 80px; text-align: center; }
+.time-box span { display: block; font-size: 32px; font-weight: 900; color: var(--primary); }
+.time-box small { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-top: 5px; }
+.colon { font-size: 24px; font-weight: bold; color: var(--text-muted); margin-bottom: 15px; }
+
 .empty-state { text-align: center; padding: 80px 20px; }
 .cart-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
 .cart-img { width: 100px; height: 130px; object-fit: cover; }
@@ -128,6 +135,7 @@ input:focus { border-color: var(--primary); }
 .ui-toast { position: fixed; top: -50px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 12px 30px; font-size: 14px; font-weight: 600; z-index: 2000; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
 .ui-toast.visible { top: 30px; }
 
+@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
