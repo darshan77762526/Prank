@@ -6,59 +6,27 @@ let promotionApplied = false;
 let currentPaymentMethod = 'UPI';
 let focusedProductInstance = null;
 
-// Exact Replica of the JM Looks Catalog based on screenshots
+// Updated Catalog Matching the Exact Screenshots
 const catalog = [
-    { 
-        id: 1, section: "1299", badge: "Trending", title: "Color Block Casual Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 12, colors: ["White", "Pink", "Green", "Black"],
-        images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600", "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=600"]
-    },
-    { 
-        id: 2, section: "1299", badge: "Trending", title: "Bow Slingback Stiletto Heels Pointed Toe", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.5", revCount: 58, colors: ["Cherry", "Black", "Cream"],
-        images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600", "https://images.unsplash.com/photo-1562183241-b937e95585b6?w=600", "https://images.unsplash.com/photo-1596455607563-ad6193f76b17?w=600"]
-    },
-    { 
-        id: 3, section: "1299", badge: "Trending", title: "Women Color Block Casual Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.6", revCount: 41, colors: ["Pink", "White", "Green", "Black"],
-        images: ["https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600", "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600"]
-    },
-    { 
-        id: 4, section: "1299", badge: "Trending", title: "Slingback Glossy Block Heels", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.8", revCount: 66, colors: ["Cherry", "Black", "Brown", "Grey"],
-        images: ["https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=600", "https://images.unsplash.com/photo-1581452202624-9b57b9e02fb8?w=600", "https://images.unsplash.com/photo-1621315271772-28b1f3a5df87?w=600"]
-    },
-    { 
-        id: 5, section: "999", badge: "Trending", title: "JM Looks Double strap bow flats", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.7", revCount: 26, colors: ["Cream", "Brown", "Black", "Red"],
-        images: ["https://images.unsplash.com/photo-1585232004423-244e0e6904e3?w=600", "https://images.unsplash.com/photo-1603221946892-747d95a12154?w=600"]
-    },
-    { 
-        id: 6, section: "999", badge: "Trending", title: "Jm Looks Casual Lace-Up Sneakers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.2", revCount: 6, colors: ["Brown"],
-        images: ["https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600", "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600"]
-    },
-    { 
-        id: 7, section: "999", badge: "Trending", title: "Platform Lace-Up Casual Sneakers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.8", revCount: 4, colors: ["Pink", "Black", "Grey"],
-        images: ["https://images.unsplash.com/photo-1520113412035-7164fcce7fa5?w=600", "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600"]
-    },
-    { 
-        id: 8, section: "999", badge: "Trending", title: "JM Looks Mary Jane Flats", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "5.0", revCount: 4, colors: ["Brown", "Red"],
-        images: ["https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600", "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?w=600"]
-    },
-    { 
-        id: 9, section: "clothing", badge: "Trending", title: "Fitted Cropped T-Shirt With Print", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.8", revCount: 5, colors: ["Yellow", "Green", "Blue"],
-        images: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600", "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600"]
-    },
-    { 
-        id: 10, section: "clothing", badge: "Trending", title: "White Fitted Shirt with Back Lace", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.9", revCount: 15, colors: ["White", "Black", "Pink"],
-        images: ["https://images.unsplash.com/photo-1596755094514-f87e32f85e2c?w=600", "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600"]
-    },
-    { 
-        id: 11, section: "clothing", badge: "Trending", title: "Round Neck Short Sleeve Floral", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.8", revCount: 6, colors: ["Red", "White", "Yellow"],
-        images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600", "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600"]
-    },
-    { 
-        id: 12, section: "clothing", badge: "Trending", title: "Plaid Fitted Dress", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.5", revCount: 6, colors: ["Red", "Blue"],
-        images: ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600", "https://images.unsplash.com/photo-1612336307429-8a898d10e223?w=600"]
-    }
+    // 2 FOR 1299 Section
+    { id: 1, section: "1299", badge: "Trending", title: "Red Performance Knit Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 12, colors: ["Red", "Black", "White"], images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600", "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=600", "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600"] },
+    { id: 2, section: "1299", badge: "Trending", title: "Bow Slingback Stiletto Heels Floral", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.5", revCount: 58, colors: ["Blue Floral", "Black", "Cherry"], images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600", "https://images.unsplash.com/photo-1562183241-b937e95585b6?w=600", "https://images.unsplash.com/photo-1596455607563-ad6193f76b17?w=600", "https://images.unsplash.com/photo-1515347619362-e75c87aebbe9?w=600"] },
+    { id: 3, section: "1299", badge: "Trending", title: "Maroon Classic Skate Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.6", revCount: 41, colors: ["Maroon", "Black", "Navy"], images: ["https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600", "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600", "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600"] },
+    { id: 4, section: "1299", badge: "Trending", title: "White & Orange Sport Sneakers", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.8", revCount: 66, colors: ["White/Orange", "Black/Grey"], images: ["https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=600", "https://images.unsplash.com/photo-1581452202624-9b57b9e02fb8?w=600", "https://images.unsplash.com/photo-1621315271772-28b1f3a5df87?w=600", "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=600"] },
+    
+    // 2 FOR 999 Section
+    { id: 5, section: "999", badge: "Trending", title: "Stealth Boost Urban Sneakers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.7", revCount: 26, colors: ["Grey/Orange", "Black"], images: ["https://images.unsplash.com/photo-1552346154-21d32810baa3?w=600", "https://images.unsplash.com/photo-1603221946892-747d95a12154?w=600", "https://images.unsplash.com/photo-1585232004423-244e0e6904e3?w=600", "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=600"] },
+    { id: 6, section: "999", badge: "Trending", title: "Brown Suede Air Classic", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.2", revCount: 6, colors: ["Brown", "Tan"], images: ["https://images.unsplash.com/photo-1605348532760-6753d2c43329?w=600", "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600", "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600", "https://images.unsplash.com/photo-1520113412035-7164fcce7fa5?w=600"] },
+    { id: 7, section: "999", badge: "Trending", title: "White Platform Lace-Up Sneakers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.8", revCount: 4, colors: ["White", "Black"], images: ["https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600", "https://images.unsplash.com/photo-1520113412035-7164fcce7fa5?w=600", "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600", "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600"] },
+    { id: 8, section: "999", badge: "Trending", title: "Classic Mary Jane Flats", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "5.0", revCount: 4, colors: ["Black", "Brown"], images: ["https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?w=600", "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600", "https://images.unsplash.com/photo-1515347619362-e75c87aebbe9?w=600", "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600"] },
+    
+    // Clothing Section
+    { id: 9, section: "clothing", badge: "Trending", title: "Fitted Cropped T-Shirt Black Skull", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.8", revCount: 5, colors: ["Black", "White"], images: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600", "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600", "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600", "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600"] },
+    { id: 10, section: "clothing", badge: "Trending", title: "White Fitted Shirt", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.9", revCount: 15, colors: ["White", "Black"], images: ["https://images.unsplash.com/photo-1596755094514-f87e32f85e2c?w=600", "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600", "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=600", "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600"] },
+    { id: 11, section: "clothing", badge: "Trending", title: "Yellow Sweatsuit Co-ord", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.8", revCount: 6, colors: ["Yellow", "Grey", "Black"], images: ["https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600", "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600", "https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=600", "https://images.unsplash.com/photo-1572495532056-8583af1cbfce?w=600"] },
+    { id: 12, section: "clothing", badge: "Trending", title: "Red Floral Fit & Flare Dress", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.5", revCount: 6, colors: ["Red Floral", "Blue Floral"], images: ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600", "https://images.unsplash.com/photo-1612336307429-8a898d10e223?w=600", "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600", "https://images.unsplash.com/photo-1515347619362-e75c87aebbe9?w=600"] }
 ];
 
-// Helper Functions
 function showToast(msg) {
     const t = document.getElementById('global-toast');
     t.innerText = msg; t.classList.add('visible');
@@ -82,7 +50,6 @@ function navigateToRoute(routeId) {
     if(routeId === 'view-wishlist') renderWishlistContents();
 }
 
-// Initialization & Render
 window.onload = () => {
     renderGrid("1299", 'grid-1299');
     renderGrid("999", 'grid-999');
@@ -91,6 +58,7 @@ window.onload = () => {
 
 function renderGrid(section, elementId) {
     const grid = document.getElementById(elementId);
+    if(!grid) return;
     const items = catalog.filter(p => p.section === section);
     
     grid.innerHTML = items.map(p => `
@@ -113,7 +81,6 @@ function renderGrid(section, elementId) {
     `).join('');
 }
 
-// Auth Logic
 function executeRegistration() {
     const name = document.getElementById('join-name').value.trim();
     const phone = document.getElementById('join-phone').value.trim();
@@ -130,7 +97,6 @@ function executeRegistration() {
     });
 }
 
-// PDP Logic
 function openPDP(id) {
     const p = catalog.find(x => x.id === id);
     focusedProductInstance = p;
@@ -143,13 +109,14 @@ function openPDP(id) {
     document.getElementById('pdp-title-target').innerText = p.title;
     document.getElementById('pdp-price-target').innerText = '₹' + p.price;
     document.getElementById('pdp-mrp-target').innerText = '₹' + p.mrp;
+    document.getElementById('pdp-rating-num').innerText = p.rating;
+    document.getElementById('pdp-rev-count').innerText = "⌄ " + p.revCount + " reviews";
     document.getElementById('pdp-review-title').innerText = "Reviews for " + p.title;
     
     document.getElementById('pdp-colors-target').innerHTML = p.colors.map((c, idx) => `
         <div class="color-box ${idx === 0 ? 'active' : ''}" onclick="selectColor(this)">${c}</div>
     `).join('');
 
-    // Generate Customer Fake Review Photos
     let photosHTML = "";
     for(let i=0; i<8; i++) {
         photosHTML += `<div class="photo-sq"><img src="${p.images[i%p.images.length]}"><span>★ 4.0</span></div>`;
@@ -170,7 +137,6 @@ function selectColor(elem) {
     elem.classList.add('active');
 }
 
-// Wishlist & Cart Actions
 function toggleWishlist(id) {
     if(userWishlist.includes(id)) {
         userWishlist = userWishlist.filter(w => w !== id);
@@ -198,7 +164,6 @@ function updateBadges() {
     bb.innerText = userCart.length;
 }
 
-// Offer Verification Logic
 function generateRandomCode() {
     if(!sessionUser) {
         alert("Please login first to generate offers.");
@@ -227,7 +192,34 @@ function generateRandomCode() {
     }
 }
 
-// Cart Logic
+function renderWishlistContents() {
+    const list = document.getElementById('container-wishlist');
+    const fallback = document.getElementById('wishlist-fallback');
+    
+    if(!userWishlist.length) { 
+        fallback.style.display = 'block'; 
+        list.style.display = 'none';
+        return; 
+    }
+    fallback.style.display = 'none'; 
+    list.style.display = 'grid';
+    
+    list.innerHTML = userWishlist.map(id => {
+        const p = catalog.find(x => x.id === id);
+        return `
+        <div class="card" onclick="openPDP(${p.id})">
+            <div class="wish-float" style="color:red;" onclick="event.stopPropagation(); toggleWishlist(${p.id})">❤️</div>
+            <img src="${p.images[0]}" class="card-img">
+            <div class="item-details">
+                <div class="card-title">${p.title}</div>
+                <div style="margin-top:10px;">
+                    <span class="card-price">₹${p.price}</span>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
 function renderBagContents() {
     const list = document.getElementById('container-bag-items');
     const fallback = document.getElementById('bag-fallback');
@@ -236,7 +228,7 @@ function renderBagContents() {
     if(!userCart.length) { 
         fallback.style.display = 'block'; 
         flow.style.display = 'none'; 
-        renderGrid('1299', 'grid-suggested'); // Show suggestions
+        renderGrid('1299', 'grid-suggested'); 
         return; 
     }
     fallback.style.display = 'none'; flow.style.display = 'block';
@@ -248,7 +240,7 @@ function renderBagContents() {
             <img src="${p.images[0]}" class="cart-img">
             <div style="flex-grow:1;">
                 <div style="font-weight:600; margin-bottom:5px;">${p.title}</div>
-                <div style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Color: ${p.colors[0]} | Size: 38</div>
+                <div style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Color: ${p.colors[0]} | Size: M</div>
                 <div style="font-size:16px; font-weight:700;">₹${p.price}</div>
             </div>
         </div>`;
@@ -306,7 +298,6 @@ function evaluateCheckoutPermission() {
     navigateToRoute('view-checkout');
 }
 
-// Payment & Prank Flow
 function selectPayment(method) {
     currentPaymentMethod = method;
     document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
@@ -325,10 +316,17 @@ function processFinalPayment() {
 
     showLoader(loader1, 1500, () => {
         showLoader('Processing ₹1 Transaction...', 2000, () => {
-            navigateToRoute('view-prank');
+            // First show Success Screen
+            navigateToRoute('view-success');
             document.querySelector('.site-header').style.display = 'none';
             document.querySelector('.top-promo-strip').style.display = 'none';
-            document.body.style.background = '#fef2f2';
+            document.body.style.background = '#ecfdf5';
+
+            // Wait 2.5 seconds, then drop the Prank
+            setTimeout(() => {
+                navigateToRoute('view-prank');
+                document.body.style.background = '#fef2f2';
+            }, 2500);
         });
     });
 }
