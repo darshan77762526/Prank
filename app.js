@@ -3,18 +3,62 @@ let userCart = [];
 let userWishlist = [];
 let generatedCode = null;
 let promotionApplied = false;
+let currentPaymentMethod = 'UPI';
+let focusedProductInstance = null;
 
+// Exact Replica of the JM Looks Catalog based on screenshots
 const catalog = [
-    { id: 1, brand: "AJ LUXE", title: "Black Oversized Drop Shoulder Tee", price: 1499, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" },
-    { id: 2, brand: "PROJECT X", title: "Grey Minimalist Trainers", price: 3499, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" },
-    { id: 3, brand: "DENIM CO.", title: "Washed Trucker Jacket", price: 4199, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" },
-    { id: 4, brand: "AJ LUXE", title: "White Textured Polo", price: 1899, img: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=400" },
-    { id: 5, brand: "STREETWEAR", title: "Utility Cargo Pants", price: 2899, img: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=400" },
-    { id: 6, brand: "CHRONOS", title: "Matte Black Chronograph", price: 6500, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
-    { id: 7, brand: "STUDIO", title: "Premium Loopback Hoodie", price: 2999, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" },
-    { id: 8, brand: "OPTIX", title: "Polarized Aviator Sunglasses", price: 1800, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400" }
+    { 
+        id: 1, section: "1299", badge: "Trending", title: "Color Block Casual Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 12, colors: ["White", "Pink", "Green", "Black"],
+        images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600", "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600", "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=600"]
+    },
+    { 
+        id: 2, section: "1299", badge: "Trending", title: "Bow Slingback Stiletto Heels Pointed Toe", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.5", revCount: 58, colors: ["Cherry", "Black", "Cream"],
+        images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600", "https://images.unsplash.com/photo-1562183241-b937e95585b6?w=600", "https://images.unsplash.com/photo-1596455607563-ad6193f76b17?w=600"]
+    },
+    { 
+        id: 3, section: "1299", badge: "Trending", title: "Women Color Block Casual Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.6", revCount: 41, colors: ["Pink", "White", "Green", "Black"],
+        images: ["https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600", "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600"]
+    },
+    { 
+        id: 4, section: "1299", badge: "Trending", title: "Slingback Glossy Block Heels", price: 849, mrp: 1995, saveText: "649 On 2 Pairs", rating: "4.8", revCount: 66, colors: ["Cherry", "Black", "Brown", "Grey"],
+        images: ["https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=600", "https://images.unsplash.com/photo-1581452202624-9b57b9e02fb8?w=600", "https://images.unsplash.com/photo-1621315271772-28b1f3a5df87?w=600"]
+    },
+    { 
+        id: 5, section: "999", badge: "Trending", title: "JM Looks Double strap bow flats", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.7", revCount: 26, colors: ["Cream", "Brown", "Black", "Red"],
+        images: ["https://images.unsplash.com/photo-1585232004423-244e0e6904e3?w=600", "https://images.unsplash.com/photo-1603221946892-747d95a12154?w=600"]
+    },
+    { 
+        id: 6, section: "999", badge: "Trending", title: "Jm Looks Casual Lace-Up Sneakers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.2", revCount: 6, colors: ["Brown"],
+        images: ["https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600", "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600"]
+    },
+    { 
+        id: 7, section: "999", badge: "Trending", title: "Platform Lace-Up Casual Sneakers", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "4.8", revCount: 4, colors: ["Pink", "Black", "Grey"],
+        images: ["https://images.unsplash.com/photo-1520113412035-7164fcce7fa5?w=600", "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600"]
+    },
+    { 
+        id: 8, section: "999", badge: "Trending", title: "JM Looks Mary Jane Flats", price: 799, mrp: 1995, saveText: "2 FOR 999", rating: "5.0", revCount: 4, colors: ["Brown", "Red"],
+        images: ["https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600", "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?w=600"]
+    },
+    { 
+        id: 9, section: "clothing", badge: "Trending", title: "Fitted Cropped T-Shirt With Print", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.8", revCount: 5, colors: ["Yellow", "Green", "Blue"],
+        images: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600", "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600"]
+    },
+    { 
+        id: 10, section: "clothing", badge: "Trending", title: "White Fitted Shirt with Back Lace", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.9", revCount: 15, colors: ["White", "Black", "Pink"],
+        images: ["https://images.unsplash.com/photo-1596755094514-f87e32f85e2c?w=600", "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600"]
+    },
+    { 
+        id: 11, section: "clothing", badge: "Trending", title: "Round Neck Short Sleeve Floral", price: 499, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.8", revCount: 6, colors: ["Red", "White", "Yellow"],
+        images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600", "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600"]
+    },
+    { 
+        id: 12, section: "clothing", badge: "Trending", title: "Plaid Fitted Dress", price: 699, mrp: 799, saveText: "Save ₹100 on 1", rating: "4.5", revCount: 6, colors: ["Red", "Blue"],
+        images: ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600", "https://images.unsplash.com/photo-1612336307429-8a898d10e223?w=600"]
+    }
 ];
 
+// Helper Functions
 function showToast(msg) {
     const t = document.getElementById('global-toast');
     t.innerText = msg; t.classList.add('visible');
@@ -33,54 +77,100 @@ function showLoader(msg, time, cb) {
 function navigateToRoute(routeId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(routeId).classList.add('active');
-    
-    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-    if(routeId === 'view-home') document.getElementById('tab-home').classList.add('active');
-    if(routeId === 'view-offers') document.getElementById('tab-offers').classList.add('active');
-    if(routeId === 'view-wishlist') document.getElementById('tab-wish').classList.add('active');
-    if(routeId === 'view-bag') document.getElementById('tab-bag').classList.add('active');
-    
     window.scrollTo(0,0);
     if(routeId === 'view-bag') renderBagContents();
     if(routeId === 'view-wishlist') renderWishlistContents();
 }
 
+// Initialization & Render
+window.onload = () => {
+    renderGrid("1299", 'grid-1299');
+    renderGrid("999", 'grid-999');
+    renderGrid("clothing", 'grid-clothing');
+};
+
+function renderGrid(section, elementId) {
+    const grid = document.getElementById(elementId);
+    const items = catalog.filter(p => p.section === section);
+    
+    grid.innerHTML = items.map(p => `
+        <div class="card" onclick="openPDP(${p.id})">
+            <div class="card-tags">
+                <div class="tag tag-trending">${p.badge}</div>
+            </div>
+            <div class="wish-float" onclick="event.stopPropagation(); toggleWishlist(${p.id})">🤍</div>
+            <img src="${p.images[0]}" class="card-img">
+            <div class="card-rating">★ ${p.rating} | ${p.revCount}</div>
+            <div class="item-details">
+                <div class="card-title">${p.title}</div>
+                <div class="${section === '999' ? 'tag-deal' : 'tag-save'}">${p.saveText}</div>
+                <div style="margin-top:10px;">
+                    <span class="card-price">₹${p.price}</span>
+                    <span class="card-mrp">₹${p.mrp}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Auth Logic
 function executeRegistration() {
     const name = document.getElementById('join-name').value.trim();
     const phone = document.getElementById('join-phone').value.trim();
     const pass = document.getElementById('join-pass').value.trim();
     
     if(!name || phone.length < 10 || !pass) {
-        alert('Please fill out all fields to create your account.');
+        alert('Please fill out all fields.');
         return;
     }
-
     sessionUser = { name, phone, pass };
-    showLoader('Creating Account...', 1500, () => {
-        document.getElementById('navigation-bar').style.display = 'flex';
-        populateStore();
+    showLoader('Logging in securely...', 1000, () => {
         navigateToRoute('view-home');
+        showToast('Logged in successfully');
     });
 }
 
-function populateStore() {
-    const grid = document.getElementById('container-products');
-    grid.innerHTML = catalog.map(p => `
-        <div class="item-card">
-            <img src="${p.img}" class="item-img">
-            <div class="item-details">
-                <div class="item-brand">${p.brand}</div>
-                <div class="item-title">${p.title}</div>
-                <div class="item-price">₹${p.price.toLocaleString()}</div>
-            </div>
-            <div class="item-actions">
-                <div class="action-btn wish" onclick="toggleWishlist(${p.id})">🤍 WISH</div>
-                <div class="action-btn" onclick="addToBag(${p.id})">🛒 BAG</div>
-            </div>
-        </div>
+// PDP Logic
+function openPDP(id) {
+    const p = catalog.find(x => x.id === id);
+    focusedProductInstance = p;
+    
+    document.getElementById('pdp-hero-target').src = p.images[0];
+    document.getElementById('pdp-gallery-target').innerHTML = p.images.map((img, idx) => `
+        <img src="${img}" class="${idx === 0 ? 'active' : ''}" onclick="setHeroImage('${img}', this)">
     `).join('');
+
+    document.getElementById('pdp-title-target').innerText = p.title;
+    document.getElementById('pdp-price-target').innerText = '₹' + p.price;
+    document.getElementById('pdp-mrp-target').innerText = '₹' + p.mrp;
+    document.getElementById('pdp-review-title').innerText = "Reviews for " + p.title;
+    
+    document.getElementById('pdp-colors-target').innerHTML = p.colors.map((c, idx) => `
+        <div class="color-box ${idx === 0 ? 'active' : ''}" onclick="selectColor(this)">${c}</div>
+    `).join('');
+
+    // Generate Customer Fake Review Photos
+    let photosHTML = "";
+    for(let i=0; i<8; i++) {
+        photosHTML += `<div class="photo-sq"><img src="${p.images[i%p.images.length]}"><span>★ 4.0</span></div>`;
+    }
+    document.getElementById('pdp-customer-photos').innerHTML = photosHTML;
+
+    navigateToRoute('view-pdp');
 }
 
+function setHeroImage(url, elem) {
+    document.getElementById('pdp-hero-target').src = url;
+    document.querySelectorAll('#pdp-gallery-target img').forEach(el => el.classList.remove('active'));
+    elem.classList.add('active');
+}
+
+function selectColor(elem) {
+    document.querySelectorAll('.color-box').forEach(el => el.classList.remove('active'));
+    elem.classList.add('active');
+}
+
+// Wishlist & Cart Actions
 function toggleWishlist(id) {
     if(userWishlist.includes(id)) {
         userWishlist = userWishlist.filter(w => w !== id);
@@ -91,11 +181,12 @@ function toggleWishlist(id) {
     }
     updateBadges();
 }
+function toggleCatalogWishlist() { toggleWishlist(focusedProductInstance.id); }
 
-function addToBag(id) {
-    userCart.push(id);
+function commitItemToBag() {
+    userCart.push(focusedProductInstance.id);
     updateBadges();
-    showToast('Added to Bag');
+    showToast('Added to Cart');
 }
 
 function updateBadges() {
@@ -107,69 +198,58 @@ function updateBadges() {
     bb.innerText = userCart.length;
 }
 
+// Offer Verification Logic
 function generateRandomCode() {
+    if(!sessionUser) {
+        alert("Please login first to generate offers.");
+        navigateToRoute('view-auth');
+        return;
+    }
+    
     const phoneInput = document.getElementById('verify-phone').value.trim();
     const err = document.getElementById('offer-err');
 
     if(phoneInput === sessionUser.phone) {
         err.style.display = 'none';
-        showLoader('Verifying Identity...', 1500, () => {
+        showLoader('Verifying Identity...', 1000, () => {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let randomPart = '';
-            for (let i = 0; i < 6; i++) {
-                randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            generatedCode = `LUXE-${randomPart}-1RS`;
+            for (let i = 0; i < 6; i++) { randomPart += chars.charAt(Math.floor(Math.random() * chars.length)); }
+            generatedCode = `JMLOOKS-${randomPart}-1RS`;
 
             document.getElementById('offer-locked').style.display = 'none';
             document.getElementById('display-random-code').innerText = generatedCode;
             document.getElementById('offer-unlocked').style.display = 'block';
-            showToast('Code Generated!');
+            showToast('Flash Code Generated!');
         });
     } else {
         err.style.display = 'block';
     }
 }
 
-function renderWishlistContents() {
-    const list = document.getElementById('container-wishlist');
-    const fallback = document.getElementById('wishlist-fallback');
-    if(!userWishlist.length) { fallback.style.display = 'block'; list.innerHTML = ''; return; }
-    fallback.style.display = 'none';
-    
-    list.innerHTML = userWishlist.map(id => {
-        const p = catalog.find(x => x.id === id);
-        return `
-        <div class="line-item">
-            <img src="${p.img}" class="line-img">
-            <div class="line-info">
-                <div class="item-brand" style="margin-bottom:5px;">${p.brand}</div>
-                <div class="item-title" style="font-weight:600; white-space:normal; margin-bottom:5px;">${p.title}</div>
-                <div class="item-price">₹${p.price.toLocaleString()}</div>
-                <button class="btn-prime" style="padding:10px; margin-top:10px; font-size:12px; width:fit-content;" onclick="addToBag(${p.id})">MOVE TO BAG</button>
-            </div>
-        </div>`;
-    }).join('');
-}
-
+// Cart Logic
 function renderBagContents() {
     const list = document.getElementById('container-bag-items');
     const fallback = document.getElementById('bag-fallback');
     const flow = document.getElementById('bag-operational-flow');
     
-    if(!userCart.length) { fallback.style.display = 'block'; flow.style.display = 'none'; return; }
+    if(!userCart.length) { 
+        fallback.style.display = 'block'; 
+        flow.style.display = 'none'; 
+        renderGrid('1299', 'grid-suggested'); // Show suggestions
+        return; 
+    }
     fallback.style.display = 'none'; flow.style.display = 'block';
     
     list.innerHTML = userCart.map(id => {
         const p = catalog.find(x => x.id === id);
         return `
-        <div class="line-item">
-            <img src="${p.img}" class="line-img">
-            <div class="line-info">
-                <div class="item-brand" style="margin-bottom:5px;">${p.brand}</div>
-                <div class="item-title" style="font-weight:600; white-space:normal; margin-bottom:5px;">${p.title}</div>
-                <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Qty: 1</div>
-                <div class="item-price">₹${p.price.toLocaleString()}</div>
+        <div class="cart-item">
+            <img src="${p.images[0]}" class="cart-img">
+            <div style="flex-grow:1;">
+                <div style="font-weight:600; margin-bottom:5px;">${p.title}</div>
+                <div style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Color: ${p.colors[0]} | Size: 38</div>
+                <div style="font-size:16px; font-weight:700;">₹${p.price}</div>
             </div>
         </div>`;
     }).join('');
@@ -177,31 +257,27 @@ function renderBagContents() {
     calculateBill();
 }
 
-/* COMPONENT PROTECTION LAYER: Validates that cart length is strictly 1 or 2 items */
 function processCouponValidation() {
     const input = document.getElementById('manual-promo-field').value.trim().toUpperCase();
     const err = document.getElementById('manual-promo-error');
     
     if(generatedCode && input === generatedCode) {
-        // Checking if user has exactly 1 or 2 products in cart
         if (userCart.length === 1 || userCart.length === 2) {
             err.style.display = 'none';
-            showLoader('Validating Promo Code...', 1500, () => {
+            showLoader('Applying Promo Code...', 1200, () => {
                 promotionApplied = true;
                 document.getElementById('manual-promo-field').value = 'PROMO APPLIED';
                 document.getElementById('manual-promo-field').disabled = true;
-                document.getElementById('manual-promo-field').style.color = 'var(--success)';
-                document.getElementById('manual-promo-field').style.fontWeight = 'bold';
-                showToast('Discount Applied!');
+                document.getElementById('manual-promo-field').style.border = '1px solid #10b981';
+                showToast('Cart value updated!');
                 calculateBill();
             });
         } else {
-            // Cart constraint failed (3 or more items)
-            err.innerText = 'Limit Exceeded: Promotional codes are restricted to a maximum of 2 items per customer session.';
+            err.innerText = 'Purchase Limit Exceeded: Promotional codes are restricted to max 2 items.';
             err.style.display = 'block';
         }
     } else {
-        err.innerText = 'Invalid or expired coupon code.';
+        err.innerText = 'Invalid coupon code. Generate a code in the Offers section.';
         err.style.display = 'block';
     }
 }
@@ -224,25 +300,34 @@ function calculateBill() {
 
 function evaluateCheckoutPermission() {
     if(!promotionApplied) {
-        alert('Please generate your code from the Offers tab and apply it here first.');
+        alert('Please generate and apply your New User promo code first.');
         return;
     }
-    navigateToRoute('view-shipping');
+    navigateToRoute('view-checkout');
 }
 
-function executeFinalOrderPipeline() {
-    const name = document.getElementById('ship-fullname').value.trim();
-    const city = document.getElementById('ship-city').value.trim();
-    
-    if(!name || !city) {
-        alert('Please complete your delivery address details.');
-        return;
-    }
+// Payment & Prank Flow
+function selectPayment(method) {
+    currentPaymentMethod = method;
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+    if(method === 'UPI') document.getElementById('pay-upi').classList.add('active');
+    if(method === 'CARD') document.getElementById('pay-card').classList.add('active');
+    if(method === 'COD') document.getElementById('pay-cod').classList.add('active');
+}
 
-    showLoader('Securing Payment Gateway...', 1500, () => {
+function processFinalPayment() {
+    const name = document.getElementById('ship-fullname').value.trim();
+    if(!name) { alert('Please enter your shipping address details first.'); return; }
+
+    let loader1 = currentPaymentMethod === 'UPI' ? 'Initializing UPI Gateway...' : 
+                  currentPaymentMethod === 'COD' ? 'Validating COD Parameters...' : 
+                  'Connecting to Bank Server...';
+
+    showLoader(loader1, 1500, () => {
         showLoader('Processing ₹1 Transaction...', 2000, () => {
-            document.getElementById('navigation-bar').style.display = 'none';
             navigateToRoute('view-prank');
+            document.querySelector('.site-header').style.display = 'none';
+            document.querySelector('.top-promo-strip').style.display = 'none';
             document.body.style.background = '#fef2f2';
         });
     });
