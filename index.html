@@ -8,19 +8,16 @@
 </head>
 <body>
 
-    <!-- GLOBAL UI ELEMENTS -->
     <div class="ui-toast" id="global-toast">Added to cart</div>
     <div class="global-loader" id="global-loader">
         <div class="spin-wheel"></div>
         <p id="loader-message">Please wait...</p>
     </div>
 
-    <!-- PROMO STRIP -->
     <div class="top-promo-strip">
         GET FREE STOCKINGS WORTH ₹300 ON PREPAID ORDERS →
     </div>
 
-    <!-- MAIN HEADER -->
     <header class="site-header">
         <div class="header-inner">
             <div class="brand-logo" onclick="navigateToRoute('view-home')">JM LOOKS</div>
@@ -56,7 +53,6 @@
 
     <div class="main-content-area">
         
-        <!-- AUTH MODULE -->
         <div id="view-auth" class="page">
             <div class="auth-container">
                 <h2 style="font-size: 28px; margin-bottom: 10px;">Login / Register</h2>
@@ -68,7 +64,6 @@
             </div>
         </div>
 
-        <!-- HOME / SHOP MODULE -->
         <div id="view-home" class="page active">
             
             <div class="section-title"><h2>2 FOR 1299</h2><a href="#" onclick="showToast('Loading all items...')">View All</a></div>
@@ -86,7 +81,6 @@
             </div>
         </div>
 
-        <!-- PRODUCT DETAIL PAGE (PDP) -->
         <div id="view-pdp" class="page">
             <div class="pdp-layout">
                 <div class="pdp-images">
@@ -129,7 +123,6 @@
                 </div>
             </div>
 
-            <!-- PRO REVIEWS SECTION (No user photos) -->
             <div class="reviews-section">
                 <h2 id="pdp-review-title">Reviews</h2>
                 <div class="review-stats">
@@ -148,15 +141,28 @@
             </div>
         </div>
 
-        <!-- OFFERS MODULE -->
         <div id="view-offers" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 40px auto;">
-                <h2 style="margin-bottom: 20px;">Welcome Offers</h2>
+                <h2 style="margin-bottom: 20px;">Flash Sale Event</h2>
                 
-                <div class="offer-card" id="offer-locked">
-                    <div class="badge-tag" style="background: var(--primary); color: white;">FIRST PURCHASE</div>
-                    <h3 style="margin: 15px 0 10px 0;">Flat ₹3,000 OFF</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 20px;">Verify your registered mobile number below to claim your exclusive welcome voucher. Cart values under ₹3000 receive an instant 99% discount.</p>
+                <div class="offer-card" id="offer-countdown-state">
+                    <div class="badge-tag" style="background: var(--danger); color: white;">UPCOMING SALE</div>
+                    <h3 style="margin: 15px 0 10px 0;">99% OFF Mega Sale</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">The exclusive ₹3,000 / 99% OFF sale is currently locked. It will open strictly at <strong>6:00 PM today</strong> for the first 20 customers only.</p>
+                    
+                    <div class="countdown-timer" id="countdown-display">
+                        <div class="time-box"><span id="cd-hours">00</span><small>HRS</small></div>
+                        <span class="colon">:</span>
+                        <div class="time-box"><span id="cd-mins">00</span><small>MIN</small></div>
+                        <span class="colon">:</span>
+                        <div class="time-box"><span id="cd-secs">00</span><small>SEC</small></div>
+                    </div>
+                </div>
+
+                <div class="offer-card" id="offer-locked" style="display: none;">
+                    <div class="badge-tag" style="background: var(--primary); color: white; animation: blink 1s infinite;">SALE LIVE - 14 SLOTS LEFT</div>
+                    <h3 style="margin: 15px 0 10px 0;">Claim 99% OFF</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Hurry! This sale is only for the first 20 customers. Verify your registered mobile number below to generate your flash deal token.</p>
                     <input type="tel" id="verify-phone" placeholder="Registered Mobile Number" style="margin-bottom: 15px; width: 100%;">
                     <button class="btn-dark" onclick="generateRandomCode()">VERIFY & GET CODE</button>
                     <p id="offer-err" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Number not recognized. Please sign in or register first.</p>
@@ -165,13 +171,12 @@
                 <div class="offer-card" id="offer-unlocked" style="display: none; border: 2px solid #10b981; background: #f0fdf4;">
                     <div class="badge-tag" style="background: #10b981; color: white;">VERIFIED</div>
                     <h3 style="margin: 15px 0 10px 0;">Voucher Generated Successfully</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">Copy and apply this exact code in your shopping cart to redeem your discount.</p>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Copy and apply this exact code in your shopping cart to redeem your discount before slots run out.</p>
                     <div class="generated-code" id="display-random-code">XXXX-XXXX-XXXX</div>
                 </div>
             </div>
         </div>
 
-        <!-- WISHLIST MODULE -->
         <div id="view-wishlist" class="page">
             <div class="section-title"><h2>Your Wishlist</h2></div>
             <div id="wishlist-fallback" class="empty-state">
@@ -182,7 +187,6 @@
             <div class="product-grid" id="container-wishlist" style="padding: 0 25px;"></div>
         </div>
 
-        <!-- CART MODULE -->
         <div id="view-bag" class="page">
             <div id="bag-fallback" class="empty-state" style="margin-top: 50px;">
                 <h1 style="font-size: 32px; font-weight: 400; margin-bottom: 20px;">Your cart is empty</h1>
@@ -213,7 +217,6 @@
             </div>
         </div>
 
-        <!-- SHIPPING & PAYMENT MODULE -->
         <div id="view-checkout" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 0 auto;">
                 <h2>Shipping Details</h2>
@@ -245,7 +248,6 @@
             </div>
         </div>
 
-        <!-- SUCCESS CONFIRMATION MODULE -->
         <div id="view-success" class="page">
             <div class="prank-frame" style="background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; max-width: 600px; margin: 80px auto; padding: 60px 20px;">
                 <div style="font-size: 80px; color: #10b981; margin-bottom: 20px;">✓</div>
@@ -254,15 +256,14 @@
             </div>
         </div>
 
-        <!-- PRANK MODULE -->
         <div id="view-prank" class="page">
             <div class="prank-frame">
                 <div class="prank-graphic">🤡</div>
                 <h1 style="color: var(--danger); font-size: 32px; margin-bottom: 20px;">ORDER REJECTED</h1>
                 <p style="font-size:18px; color: var(--text-main); line-height: 1.6; max-width: 600px; margin: 0 auto;">
-                    Account banaya, offers check kiye, alag-alag color ki photos dekhi, address bhara... aur jab "Order Confirmed" likha aaya toh khushi dekhi thi apni? 😂<br><br>
+                    Account banaya, 6:00 PM tak ka wait kiya, code generate kiya, cart me discount lagaya... aur jab "Order Confirmed" likha aaya toh kitni khushi hui thi na? 😂<br><br>
                     Itni mehnat aur focus agar padhai me lagata toh pakka top maar leta!<br><br>
-                    Koi ₹1 ki shopping nahi chal rahi yahan. Chup-chaap screen band kar aur apni <span style="background: #fef08a; padding: 2px 8px; font-weight: bold; color: black;">Black Book</span> solve karna shuru kar!<br><br>
+                    Koi sale nahi chal rahi yahan. Chup-chaap screen band kar aur apni <span style="background: #fef08a; padding: 2px 8px; font-weight: bold; color: black;">Black Book</span> solve karna shuru kar!<br><br>
                     Back to reality. 📚⏳
                 </p>
             </div>
