@@ -56,21 +56,50 @@
 
     <div class="main-content-area">
         
-        <!-- AUTH MODULE -->
+        <!-- SECURE AUTH MODULE WITH DUAL STATES -->
         <div id="view-auth" class="page">
-            <div class="auth-container">
-                <h2 style="font-size: 28px; margin-bottom: 10px;">Login / Register</h2>
-                <p style="color: var(--text-muted); margin-bottom: 30px;">Create an account to track orders and access exclusive bundle offers.</p>
-                <div class="form-group"><input type="text" id="join-name" placeholder="Full Name"></div>
-                <div class="form-group"><input type="tel" id="join-phone" placeholder="Mobile Number (10 digits)"></div>
-                <div class="form-group"><input type="password" id="join-pass" placeholder="Password"></div>
-                <button class="btn-dark" onclick="executeRegistration()">CREATE ACCOUNT</button>
+            <div class="auth-container" style="max-width: 450px; margin: 50px auto; padding: 20px;">
+                
+                <!-- STATE A: REGISTRATION TERMINAL -->
+                <div id="auth-unregistered-state">
+                    <h2 style="font-size: 28px; margin-bottom: 10px;">Login / Register</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 30px;">Create an account to track orders and access exclusive bundle offers.</p>
+                    <div class="form-group"><input type="text" id="join-name" placeholder="Full Name"></div>
+                    <div class="form-group"><input type="tel" id="join-phone" placeholder="Mobile Number (10 digits)"></div>
+                    <div class="form-group"><input type="password" id="join-pass" placeholder="Password"></div>
+                    <button class="btn-dark" onclick="executeRegistration()">CREATE ACCOUNT</button>
+                </div>
+
+                <!-- STATE B: SAAS ACCOUNT DASHBOARD -->
+                <div id="auth-registered-state" style="display: none; text-align: left; border: 1px solid var(--border); padding: 30px; border-radius: 4px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px;">
+                        <div style="width: 50px; height: 50px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; color: var(--primary);" id="profile-avatar-letters">U</div>
+                        <div>
+                            <h3 style="margin: 0; font-size: 18px; font-weight: 700;" id="profile-name-display">Active User</h3>
+                            <span style="font-size: 11px; background: #111; color: #fff; padding: 2px 8px; font-weight: bold; border-radius: 10px; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 4px; display: inline-block;">Luxe Tier Member</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 2px;">Registered Identification Loop</label>
+                        <div style="font-size: 15px; font-weight: 500;" id="profile-phone-display">0000000000</div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 2px;">System Infrastructure Status</label>
+                        <div style="font-size: 14px; font-weight: 600; color: #10b981; display: flex; align-items: center; gap: 6px;">
+                            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span> Security Sync Active
+                        </div>
+                    </div>
+
+                    <button class="btn-light" style="font-size: 12px; padding: 10px;" onclick="navigateToRoute('view-home')">CONTINUE BROWSING</button>
+                </div>
+
             </div>
         </div>
 
         <!-- HOME / SHOP MODULE -->
         <div id="view-home" class="page active">
-            
             <div class="section-title"><h2>2 FOR 1299</h2><a href="#" onclick="showToast('Loading all items...')">View All</a></div>
             <div class="product-grid" id="grid-1299"></div>
 
@@ -96,12 +125,10 @@
 
                 <div class="pdp-info">
                     <h1 id="pdp-title-target">Product Title</h1>
-                    
                     <div class="pdp-reviews-summary">
                         <span style="color: #f59e0b; font-size: 16px;">★★★★★</span> 
                         <span style="color: var(--text-muted); font-size: 14px; margin-left: 8px;" id="pdp-rev-count">⌄ 58 reviews</span>
                     </div>
-                    
                     <div class="pdp-price-row">
                         <span class="price-current" id="pdp-price-target">₹849</span>
                         <span class="price-mrp" id="pdp-mrp-target">₹1,995</span>
@@ -129,7 +156,6 @@
                 </div>
             </div>
 
-            <!-- PRO REVIEWS SECTION -->
             <div class="reviews-section">
                 <h2 id="pdp-review-title">Reviews</h2>
                 <div class="review-stats">
@@ -153,12 +179,10 @@
             <div class="auth-container" style="max-width: 600px; margin: 40px auto;">
                 <h2 style="margin-bottom: 20px;">Flash Sale Event</h2>
                 
-                <!-- COUNTDOWN STATE (Shows before 6:00 PM) -->
                 <div class="offer-card" id="offer-countdown-state">
                     <div class="badge-tag" style="background: var(--danger); color: white;">UPCOMING SALE</div>
                     <h3 style="margin: 15px 0 10px 0;">99% OFF Mega Sale</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">The exclusive ₹3,000 / 99% OFF sale is currently locked. It will open strictly at <strong>6:00 PM today</strong> for the first 20 customers only.</p>
-                    
                     <div class="countdown-timer" id="countdown-display">
                         <div class="time-box"><span id="cd-hours">00</span><small>HRS</small></div>
                         <span class="colon">:</span>
@@ -168,7 +192,6 @@
                     </div>
                 </div>
 
-                <!-- ACTIVE STATE (Shows exactly at 6:00 PM) -->
                 <div class="offer-card" id="offer-locked" style="display: none;">
                     <div class="badge-tag" style="background: var(--primary); color: white; animation: blink 1s infinite;">SALE LIVE - 14 SLOTS LEFT</div>
                     <h3 style="margin: 15px 0 10px 0;">Claim 99% OFF</h3>
@@ -178,7 +201,6 @@
                     <p id="offer-err" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Number not recognized. Please sign in or register first.</p>
                 </div>
 
-                <!-- SUCCESS STATE -->
                 <div class="offer-card" id="offer-unlocked" style="display: none; border: 2px solid #10b981; background: #f0fdf4;">
                     <div class="badge-tag" style="background: #10b981; color: white;">VERIFIED</div>
                     <h3 style="margin: 15px 0 10px 0;">Voucher Generated Successfully</h3>
