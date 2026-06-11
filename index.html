@@ -8,19 +8,16 @@
 </head>
 <body>
 
-    <!-- GLOBAL UI ELEMENTS -->
     <div class="ui-toast" id="global-toast">Added to cart</div>
     <div class="global-loader" id="global-loader">
         <div class="spin-wheel"></div>
         <p id="loader-message">Please wait...</p>
     </div>
 
-    <!-- PROMO STRIP -->
     <div class="top-promo-strip">
         GET FREE STOCKINGS WORTH ₹300 ON PREPAID ORDERS →
     </div>
 
-    <!-- MAIN HEADER -->
     <header class="site-header">
         <div class="header-inner">
             <div class="brand-logo" onclick="navigateToRoute('view-home')">JM LOOKS</div>
@@ -56,11 +53,8 @@
 
     <div class="main-content-area">
         
-        <!-- SECURE AUTH MODULE WITH DUAL STATES -->
         <div id="view-auth" class="page">
             <div class="auth-container" style="max-width: 450px; margin: 50px auto; padding: 20px;">
-                
-                <!-- STATE A: REGISTRATION TERMINAL -->
                 <div id="auth-unregistered-state">
                     <h2 style="font-size: 28px; margin-bottom: 10px;">Login / Register</h2>
                     <p style="color: var(--text-muted); margin-bottom: 30px;">Create an account to track orders and access exclusive bundle offers.</p>
@@ -70,7 +64,6 @@
                     <button class="btn-dark" onclick="executeRegistration()">CREATE ACCOUNT</button>
                 </div>
 
-                <!-- STATE B: SAAS ACCOUNT DASHBOARD -->
                 <div id="auth-registered-state" style="display: none; text-align: left; border: 1px solid var(--border); padding: 30px; border-radius: 4px;">
                     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px;">
                         <div style="width: 50px; height: 50px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; color: var(--primary);" id="profile-avatar-letters">U</div>
@@ -81,24 +74,15 @@
                     </div>
 
                     <div style="margin-bottom: 15px;">
-                        <label style="font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 2px;">Registered Identification Loop</label>
+                        <label style="font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 2px;">Registered Mobile</label>
                         <div style="font-size: 15px; font-weight: 500;" id="profile-phone-display">0000000000</div>
-                    </div>
-
-                    <div style="margin-bottom: 25px;">
-                        <label style="font-size: 11px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 2px;">System Infrastructure Status</label>
-                        <div style="font-size: 14px; font-weight: 600; color: #10b981; display: flex; align-items: center; gap: 6px;">
-                            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span> Security Sync Active
-                        </div>
                     </div>
 
                     <button class="btn-light" style="font-size: 12px; padding: 10px;" onclick="navigateToRoute('view-home')">CONTINUE BROWSING</button>
                 </div>
-
             </div>
         </div>
 
-        <!-- HOME / SHOP MODULE -->
         <div id="view-home" class="page active">
             <div class="section-title"><h2>2 FOR 1299</h2><a href="#" onclick="showToast('Loading all items...')">View All</a></div>
             <div class="product-grid" id="grid-1299"></div>
@@ -115,7 +99,6 @@
             </div>
         </div>
 
-        <!-- PRODUCT DETAIL PAGE (PDP) -->
         <div id="view-pdp" class="page">
             <div class="pdp-layout">
                 <div class="pdp-images">
@@ -174,7 +157,6 @@
             </div>
         </div>
 
-        <!-- TIMED OFFERS MODULE -->
         <div id="view-offers" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 40px auto;">
                 <h2 style="margin-bottom: 20px;">Flash Sale Event</h2>
@@ -210,7 +192,6 @@
             </div>
         </div>
 
-        <!-- WISHLIST MODULE -->
         <div id="view-wishlist" class="page">
             <div class="section-title"><h2>Your Wishlist</h2></div>
             <div id="wishlist-fallback" class="empty-state">
@@ -218,10 +199,9 @@
                 <p>Explore the store and click the heart icon to save items.</p>
                 <button class="btn-dark" style="width: 200px; margin-top: 20px;" onclick="navigateToRoute('view-home')">Start Shopping</button>
             </div>
-            <div class="product-grid" id="container-wishlist" style="padding: 0 25px;"></div>
+            <div class="product-grid" id="container-wishlist"></div>
         </div>
 
-        <!-- CART MODULE -->
         <div id="view-bag" class="page">
             <div id="bag-fallback" class="empty-state" style="margin-top: 50px;">
                 <h1 style="font-size: 32px; font-weight: 400; margin-bottom: 20px;">Your cart is empty</h1>
@@ -252,7 +232,6 @@
             </div>
         </div>
 
-        <!-- SHIPPING & PAYMENT MODULE -->
         <div id="view-checkout" class="page">
             <div class="auth-container" style="max-width: 600px; margin: 0 auto;">
                 <h2>Shipping Details</h2>
@@ -284,7 +263,6 @@
             </div>
         </div>
 
-        <!-- SUCCESS CONFIRMATION MODULE -->
         <div id="view-success" class="page">
             <div class="prank-frame" style="background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; max-width: 600px; margin: 80px auto; padding: 60px 20px;">
                 <div style="font-size: 80px; color: #10b981; margin-bottom: 20px;">✓</div>
@@ -293,7 +271,6 @@
             </div>
         </div>
 
-        <!-- PRANK MODULE -->
         <div id="view-prank" class="page">
             <div class="prank-frame">
                 <div class="prank-graphic">🤡</div>
@@ -311,4 +288,6 @@
 
 <script src="app.js"></script>
 </body>
-</html>
+    </html>
+    
+                    
