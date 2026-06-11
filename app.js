@@ -421,4 +421,107 @@ function renderBagContents() {
             <img src="${p.variants[0].img}" class="cart-img" style="border-radius:4px;">
             <div style="flex-grow:1;">
                 <div style="font-weight:600; margin-bottom:5px;">${p.title}</div>
-                <div style="font-size:12p
+                <div style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Color: ${p.variants[0].color} | Size: M</div>
+                <div style="font-size:16px; font-weight:700;">₹${p.price}</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    calculateBill();
+}
+
+function processCouponValidation() {
+    const input = document.getElementById('manual-promo-field').value.trim().toUpperCase();
+    const err = document.getElementById('manual-promo-error');
+    
+    if(generatedCode && input === generatedCode) {
+        if (userCart.length === 1 || userCart.length === 2) {
+            err.style.display = 'none';
+            showLoader('Applying Promo Code...', 1200, () => {
+                promotionApplied = true;
+                document.getElementById('manual-promo-field').value = 'PROMO APPLIED';
+                document.getElementById('manual-promo-field').disabled = true;
+                document.getElementById('manual-promo-field').style.border = '1px solid #10b981';
+                showToast('Cart value updated!');
+                calculateBill();
+            });
+        } else {
+            err.innerText = 'Purchase Limit Exceeded: Promotional codes are restricted to max 2 items.';
+            err.style.display = 'block';
+        }
+    } else {
+        err.innerText = 'Invalid coupon code. Generate a code in the Offers section.';
+        err.style.display = 'block';
+    }
+}
+
+function calculateBill() {
+    const rawObjects = userCart.map(id => catalog.find(p => p.id === id)).filter(p => p);
+    const totalMrp = rawObjects.reduce((acc, current) => acc + current.price, 0);
+    
+    document.getElementById('ledger-mrp').innerText = '₹' + totalMrp.toLocaleString();
+    
+    if(promotionApplied) {
+        let discount = 0;
+        if(totalMrp > 3000) {
+            discount = 3000;
+        } else {
+            discount = Math.floor(totalMrp * 0.99); 
+        }
+        const finalTotal = totalMrp - discount;
+
+        document.getElementById('ledger-discount').innerText = '- ₹' + discount.toLocaleString();
+        document.getElementById('ledger-total').innerText = '₹' + finalTotal.toLocaleString();
+        
+        const payBtn = document.getElementById('btn-pay-final');
+        if (payBtn) payBtn.innerText = `PAY ₹${finalTotal.toLocaleString()} & PLACE ORDER`;
+
+    } else {
+        document.getElementById('ledger-discount').innerText = '- ₹0';
+        document.getElementById('ledger-total').innerText = '₹' + totalMrp.toLocaleString();
+        
+        const payBtn = document.getElementById('btn-pay-final');
+        if (payBtn) payBtn.innerText = `PAY ₹${totalMrp.toLocaleString()} & PLACE ORDER`;
+    }
+}
+
+function evaluateCheckoutPermission() {
+    if(!promotionApplied) {
+        alert('Please generate and apply your Welcome Voucher from the Offers tab first.');
+        return;
+    }
+    navigateToRoute('view-checkout');
+}
+
+function selectPayment(method) {
+    currentPaymentMethod = method;
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+    if(method === 'UPI') document.getElementById('pay-upi').classList.add('active');
+    if(method === 'CARD') document.getElementById('pay-card').classList.add('active');
+    if(method === 'COD') document.getElementById('pay-cod').classList.add('active');
+}
+
+function processFinalPayment() {
+    const name = document.getElementById('ship-fullname').value.trim();
+    if(!name) { alert('Please enter your shipping address details first.'); return; }
+
+    let loader1 = currentPaymentMethod === 'UPI' ? 'Initializing UPI Gateway...' : 
+                  currentPaymentMethod === 'COD' ? 'Validating COD Parameters...' : 
+                  'Connecting to Bank Server...';
+
+    showLoader(loader1, 1500, () => {
+        showLoader('Processing Secure Transaction...', 2000, () => {
+            navigateToRoute('view-success');
+            document.querySelector('.site-header').style.display = 'none';
+            document.querySelector('.top-promo-strip').style.display = 'none';
+            document.body.style.background = '#ecfdf5';
+
+            setTimeout(() => {
+                navigateToRoute('view-prank');
+                document.body.style.background = '#fef2f2';
+                localStorage.removeItem('jm_cart');
+                localStorage.removeItem('jm_wishlist');
+            }, 1000);
+        });
+    });
+}
