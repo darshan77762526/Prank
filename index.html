@@ -2,162 +2,267 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AJ LUXE | Premium Fashion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JM LOOKS | Official Store</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="app-shell">
-    
-    <div class="ui-toast" id="global-toast">Item Added</div>
-    
+    <!-- GLOBAL UI ELEMENTS -->
+    <div class="ui-toast" id="global-toast">Added to cart</div>
     <div class="global-loader" id="global-loader">
         <div class="spin-wheel"></div>
-        <p id="loader-message">Processing...</p>
+        <p id="loader-message">Please wait...</p>
     </div>
 
-    <!-- AUTH MODULE -->
-    <div id="view-auth" class="page active no-nav">
-        <div class="navbar center"><div class="brand-logo">AJ LUXE</div></div>
-        <div class="auth-container">
-            <h2 style="margin-bottom: 5px;">Welcome to Luxe</h2>
-            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 25px;">Create an account to unlock premium catalogs and exclusive offers.</p>
+    <!-- PROMO STRIP -->
+    <div class="top-promo-strip">
+        GET FREE STOCKINGS WORTH ₹300 ON PREPAID ORDERS →
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand-logo" onclick="navigateToRoute('view-home')">JM LOOKS</div>
             
-            <div class="form-group">
-                <label class="form-label">Full Name</label>
-                <input type="text" id="join-name" placeholder="Enter full name">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Mobile Number</label>
-                <input type="tel" id="join-phone" placeholder="Enter 10-digit number">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" id="join-pass" placeholder="Create password">
-            </div>
-            <button class="btn-prime" onclick="executeRegistration()">CONTINUE</button>
-        </div>
-    </div>
+            <nav class="desktop-nav">
+                <a href="#">Shoes ⌄</a>
+                <a href="#">Clothing ⌄</a>
+                <a href="#">Bags</a>
+                <a href="#">Lowest Prices</a>
+                <a href="#">Bundle Offers ⌄</a>
+                <a href="#">Shop All</a>
+                <a href="#">Size Chart</a>
+                <a href="#">Happy Customers</a>
+                <a href="#">Shop From Reels</a>
+                <a href="#">Support ⌄</a>
+            </nav>
 
-    <!-- HOME / SHOP MODULE -->
-    <div id="view-home" class="page">
-        <div class="navbar center"><div class="brand-logo">AJ LUXE</div></div>
-        <div class="banner">
-            <div>NEW ARRIVALS</div>
-            <h2>The Autumn Collection</h2>
-        </div>
-        <div class="product-grid" id="container-products"></div>
-    </div>
-
-    <!-- OFFERS MODULE (NEW) -->
-    <div id="view-offers" class="page">
-        <div class="navbar"><div style="font-weight:700; font-size:16px; letter-spacing: 1px;">OFFERS ZONE</div></div>
-        <div style="padding: 20px;">
-            <div class="offer-card" id="offer-locked">
-                <div class="offer-badge">NEW USER EXCLUSIVE</div>
-                <h3 style="margin: 10px 0 5px 0;">₹1 Flash Deal Unlock</h3>
-                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px;">Verify your registered mobile number to generate your unique, one-time use coupon code.</p>
-                <input type="tel" id="verify-phone" placeholder="Enter Registered Mobile" style="margin-bottom: 10px;">
-                <button class="btn-prime" onclick="generateRandomCode()">VERIFY & GENERATE</button>
-                <p id="offer-err" style="color: var(--danger); font-size: 12px; margin-top: 10px; display: none;">Number mismatch. Use registered mobile.</p>
-            </div>
-
-            <div class="offer-card" id="offer-unlocked" style="display: none; border-color: var(--success); background: #f0fdf4;">
-                <div class="offer-badge" style="background: var(--success);">VERIFIED</div>
-                <h3 style="margin: 10px 0 5px 0;">Your Unique Code Generated!</h3>
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Copy this code and apply it in your bag to get your entire cart for ₹1.</p>
-                <div class="generated-code" id="display-random-code">XXXX-XXXX-XXXX</div>
+            <div class="header-icons">
+                <span class="icon" onclick="navigateToRoute('view-offers')">🏷️</span>
+                <span class="icon" onclick="navigateToRoute('view-auth')">👤</span>
+                <span class="icon" onclick="navigateToRoute('view-wishlist')">🤍<span class="badge" id="badge-wish" style="display:none;">0</span></span>
+                <span class="icon" onclick="navigateToRoute('view-bag')">🛍️<span class="badge" id="badge-bag" style="display:none;">0</span></span>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- WISHLIST MODULE -->
-    <div id="view-wishlist" class="page">
-        <div class="navbar"><div style="font-weight:700; font-size:16px; letter-spacing: 1px;">WISHLIST</div></div>
-        <div id="wishlist-fallback" class="fallback-state">
-            <h3>No items saved</h3>
-            <p>Explore our catalog to add items.</p>
-        </div>
-        <div id="container-wishlist"></div>
-    </div>
-
-    <!-- BAG / CART MODULE -->
-    <div id="view-bag" class="page">
-        <div class="navbar"><div style="font-weight:700; font-size:16px; letter-spacing: 1px;">SHOPPING BAG</div></div>
+    <div class="main-content-area">
         
-        <div id="bag-fallback" class="fallback-state">
-            <h3>Your bag is empty</h3>
-            <p>Looks like you haven't added anything yet.</p>
+        <!-- AUTH MODULE -->
+        <div id="view-auth" class="page">
+            <div class="auth-container">
+                <h2 style="font-size: 28px; margin-bottom: 10px;">Login / Register</h2>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Create an account to track orders and access exclusive bundle offers.</p>
+                <div class="form-group"><input type="text" id="join-name" placeholder="Full Name"></div>
+                <div class="form-group"><input type="tel" id="join-phone" placeholder="Mobile Number (10 digits)"></div>
+                <div class="form-group"><input type="password" id="join-pass" placeholder="Password"></div>
+                <button class="btn-dark" onclick="executeRegistration()">CREATE ACCOUNT</button>
+            </div>
         </div>
 
-        <div id="bag-operational-flow" style="display:none;">
-            <div id="container-bag-items"></div>
+        <!-- HOME / SHOP MODULE -->
+        <div id="view-home" class="page active">
             
-            <div class="promo-box">
-                <div style="font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:10px; text-transform: uppercase;">Apply Promo Code</div>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="manual-promo-field" placeholder="Enter coupon code" style="margin: 0; text-transform: uppercase;">
-                    <button class="btn-prime" style="width: auto; padding: 0 20px;" onclick="processCouponValidation()">APPLY</button>
+            <div class="section-title"><h2>2 FOR 1299</h2><a href="#">View All</a></div>
+            <div class="product-grid" id="grid-1299"></div>
+
+            <div class="section-title" style="margin-top: 40px;"><h2>2 FOR 999</h2><a href="#">View All</a></div>
+            <div class="product-grid" id="grid-999"></div>
+
+            <div class="section-title" style="margin-top: 40px;"><h2>Clothing</h2><a href="#">View All</a></div>
+            <div class="product-grid" id="grid-clothing"></div>
+            
+            <div class="seo-footer-text">
+                <h3>Buy Women's Heels, Flats, Sneakers & Juttis Online in India | JM Looks</h3>
+                <p>Tag us to get featured | <strong>VIEW ALL</strong></p>
+            </div>
+        </div>
+
+        <!-- PRODUCT DETAIL PAGE (PDP) -->
+        <div id="view-pdp" class="page">
+            <div class="pdp-layout">
+                <!-- Left: Images -->
+                <div class="pdp-images">
+                    <img src="" id="pdp-hero-target" class="hero-image">
+                    <div class="pdp-gallery" id="pdp-gallery-target"></div>
                 </div>
-                <p id="manual-promo-error" style="color: var(--danger); font-size: 12px; margin: 8px 0 0 0; display: none;">Invalid or expired coupon code.</p>
+
+                <!-- Right: Details -->
+                <div class="pdp-info">
+                    <h1 id="pdp-title-target">Product Title</h1>
+                    
+                    <div class="pdp-reviews-summary">
+                        <span style="color: #f59e0b; font-size: 16px;">★★★★★</span> 
+                        <span style="color: var(--text-muted); font-size: 14px; margin-left: 8px;">⌄ 58 reviews</span>
+                    </div>
+                    
+                    <div class="pdp-price-row">
+                        <span class="price-current" id="pdp-price-target">₹849</span>
+                        <span class="price-mrp" id="pdp-mrp-target">₹1,995</span>
+                        <span class="price-tag">Sale</span>
+                    </div>
+                    <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 25px;">Free Delivery | COD Available</div>
+
+                    <div class="selector-title">Color</div>
+                    <div class="color-options" id="pdp-colors-target">
+                        <!-- Populated via JS -->
+                    </div>
+
+                    <div class="selector-title" style="margin-top: 20px;">Shoe size</div>
+                    <div class="size-options">
+                        <div class="size-box active">36</div><div class="size-box">37</div><div class="size-box">38</div>
+                        <div class="size-box">39</div><div class="size-box">40</div><div class="size-box">41</div>
+                    </div>
+
+                    <div class="accordion-section">
+                        <div class="accordion-item">↩ RETURN & EXCHANGE <span>⌄</span></div>
+                        <div class="accordion-item">🚚 FREE DELIVERY AND COD AVAILABLE <span>⌄</span></div>
+                        <div class="accordion-item">⏱ DELIVERY TIME <span>⌄</span></div>
+                        <div class="accordion-item">📏 SIZE CHART <span>⌄</span></div>
+                        <div class="accordion-item" style="border-bottom:none;">↑ Share</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="invoice-box">
-                <h4 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Order Details</h4>
-                <div class="invoice-row"><span>Bag Total</span><span id="ledger-mrp">₹0</span></div>
-                <div class="invoice-row"><span>Bag Discount</span><span id="ledger-discount" class="success">- ₹0</span></div>
-                <div class="invoice-row"><span>Delivery</span><span class="success">FREE</span></div>
-                <div class="invoice-row invoice-total"><span>Total Amount</span><span id="ledger-total">₹0</span></div>
+            <!-- Reviews Section -->
+            <div class="reviews-section">
+                <h2 id="pdp-review-title">Reviews for Product</h2>
+                <div class="review-stats">
+                    <div class="rating-big">4.5/5<br><span style="color:#f59e0b; font-size: 20px;">★★★★<span style="color:#e5e7eb">★</span></span><br><span style="font-size:14px; color:#6b7280; font-weight:normal;">58 reviews</span></div>
+                    <div class="progress-bars">
+                        <div class="p-bar-row"><span>5 ★</span><div class="bar-bg"><div class="bar-fill" style="width:53%"></div></div><span>53%</span></div>
+                        <div class="p-bar-row"><span>4 ★</span><div class="bar-bg"><div class="bar-fill" style="width:47%"></div></div><span>47%</span></div>
+                        <div class="p-bar-row"><span>3 ★</span><div class="bar-bg"><div class="bar-fill" style="width:0%"></div></div><span>0%</span></div>
+                        <div class="p-bar-row"><span>2 ★</span><div class="bar-bg"><div class="bar-fill" style="width:0%"></div></div><span>0%</span></div>
+                        <div class="p-bar-row"><span>1 ★</span><div class="bar-bg"><div class="bar-fill" style="width:0%"></div></div><span>0%</span></div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 40px; font-size: 16px;">Customer photos: (65)</h3>
+                <div class="customer-photos" id="pdp-customer-photos">
+                    <!-- Populated via JS -->
+                </div>
             </div>
-            
-            <div style="padding: 16px;">
-                <button class="btn-prime" onclick="evaluateCheckoutPermission()">PROCEED TO SHIPPING</button>
+
+            <!-- Sticky Bottom Bar -->
+            <div class="pdp-sticky-bar">
+                <button class="btn-light" id="pdp-wishlist-action" onclick="toggleCatalogWishlist()">🤍 WISHLIST</button>
+                <button class="btn-dark" onclick="commitItemToBag()">ADD TO CART</button>
             </div>
         </div>
-    </div>
 
-    <!-- SHIPPING MODULE -->
-    <div id="view-shipping" class="page">
-        <div class="navbar">
-            <button class="nav-back" onclick="navigateToRoute('view-bag')">←</button>
-            <div style="font-weight:700; font-size:15px; letter-spacing: 1px;">SHIPPING</div>
-            <div style="width:20px;"></div>
-        </div>
-        <div style="padding: 20px; background: var(--surface);">
-            <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="ship-fullname" placeholder="Name"></div>
-            <div class="form-group"><label class="form-label">Mobile Number</label><input type="tel" id="ship-phone" placeholder="10-digit number"></div>
-            <div class="form-group"><label class="form-label">Flat/House No.</label><input type="text" id="ship-l1" placeholder="Address line 1"></div>
-            <div class="form-group"><label class="form-label">Street/Colony</label><input type="text" id="ship-l2" placeholder="Address line 2"></div>
-            <div style="display:flex; gap:10px;">
-                <div class="form-group" style="flex:1;"><label class="form-label">City</label><input type="text" id="ship-city" placeholder="City"></div>
-                <div class="form-group" style="flex:1;"><label class="form-label">Pincode</label><input type="number" id="ship-pincode" placeholder="6 digits"></div>
+        <!-- OFFERS MODULE -->
+        <div id="view-offers" class="page">
+            <div class="auth-container" style="max-width: 600px;">
+                <h2 style="margin-bottom: 20px;">Bundle & Flash Offers</h2>
+                
+                <div class="offer-card" id="offer-locked">
+                    <div class="badge-tag" style="background: var(--primary); color: white;">NEW USER LOOT</div>
+                    <h3 style="margin: 15px 0 10px 0;">Unlock Entire Cart for ₹1</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Verify your registered mobile number below to generate your unique flash deal token.</p>
+                    <input type="tel" id="verify-phone" placeholder="Registered Mobile Number" style="margin-bottom: 15px; width: 100%;">
+                    <button class="btn-dark" onclick="generateRandomCode()">GENERATE COUPON</button>
+                    <p id="offer-err" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Number not recognized. Please sign in or register first.</p>
+                </div>
+
+                <div class="offer-card" id="offer-unlocked" style="display: none; border: 2px solid #10b981; background: #f0fdf4;">
+                    <div class="badge-tag" style="background: #10b981; color: white;">VERIFIED</div>
+                    <h3 style="margin: 15px 0 10px 0;">Token Generated Successfully</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Apply this exact code in your cart to drop your total to ₹1.</p>
+                    <div class="generated-code" id="display-random-code">XXXX-XXXX-XXXX</div>
+                </div>
             </div>
-            <div class="form-group"><label class="form-label">State</label><input type="text" id="ship-state" placeholder="State"></div>
-            <button class="btn-prime" style="margin-top:10px;" onclick="executeFinalOrderPipeline()">PLACE ORDER & PAY</button>
         </div>
-    </div>
 
-    <!-- PRANK MODULE -->
-    <div id="view-prank" class="page no-nav prank-frame">
-        <div class="prank-graphic">🤡</div>
-        <div class="prank-h1">ORDER REJECTED</div>
-        <p style="font-size:15px; color: var(--text-main); line-height: 1.6; font-weight: 500; padding: 0 10px;">
-            Account banaya, offers tab me gaya, random code generate kiya, address form bhara... Itni mehnat aur focus agar apni studies me lagata toh top kar leta! 😂<br><br>
-            Ye sapne dekhna band kar aur chup-chaap jaake apni <span class="term-highlight">Black Book</span> solve kar!<br><br>
-            There is no ₹1 offer. Back to reality. 📚⏳
-        </p>
-    </div>
+        <!-- WISHLIST MODULE -->
+        <div id="view-wishlist" class="page">
+            <div class="section-title"><h2>Your Wishlist</h2></div>
+            <div id="wishlist-fallback" class="empty-state">
+                <h2>Nothing saved yet</h2>
+                <p>Explore the store and click the heart icon to save items.</p>
+            </div>
+            <div class="product-grid" id="container-wishlist" style="padding: 0 20px;"></div>
+        </div>
 
-    <!-- BOTTOM NAVIGATION -->
-    <div class="tab-bar" id="navigation-bar" style="display:none;">
-        <div class="tab-item active" id="tab-home" onclick="navigateToRoute('view-home')"><div class="tab-icon">🏠</div>Home</div>
-        <div class="tab-item" id="tab-offers" onclick="navigateToRoute('view-offers')"><div class="tab-icon">🏷️</div>Offers</div>
-        <div class="tab-item" id="tab-wish" onclick="navigateToRoute('view-wishlist')"><div class="tab-icon">🤍<div class="counter-badge" id="badge-wish" style="display:none;">0</div></div>Wishlist</div>
-        <div class="tab-item" id="tab-bag" onclick="navigateToRoute('view-bag')"><div class="tab-icon">🛍️<div class="counter-badge" id="badge-bag" style="display:none;">0</div></div>Bag</div>
-    </div>
+        <!-- CART MODULE -->
+        <div id="view-bag" class="page">
+            <div id="bag-fallback" class="empty-state" style="margin-top: 50px;">
+                <h1 style="font-size: 32px; font-weight: 400; margin-bottom: 20px;">Your cart is empty</h1>
+                <button class="btn-dark" style="width: 250px;" onclick="navigateToRoute('view-home')">Continue shopping</button>
+                <div class="section-title" style="margin-top: 60px;"><h2>YOU MIGHT ALSO LIKE</h2></div>
+                <div class="product-grid" id="grid-suggested"></div>
+            </div>
 
-</div>
+            <div id="bag-operational-flow" style="display:none; padding: 20px; max-width: 800px; margin: 0 auto;">
+                <h2 style="font-size: 24px; margin-bottom: 20px;">Your Cart</h2>
+                <div id="container-bag-items"></div>
+                
+                <div class="promo-box">
+                    <h4 style="margin-top: 0;">Apply Promo / Gift Card</h4>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="manual-promo-field" placeholder="Enter code">
+                        <button class="btn-dark" style="width: auto; padding: 0 30px;" onclick="processCouponValidation()">APPLY</button>
+                    </div>
+                    <p id="manual-promo-error" style="color: var(--danger); font-size: 13px; margin-top: 10px; display: none;">Invalid code or limit exceeded (Max 2 items).</p>
+                </div>
+
+                <div class="invoice-box">
+                    <div class="invoice-row"><span>Subtotal</span><span id="ledger-mrp">₹0</span></div>
+                    <div class="invoice-row" style="color: #10b981;"><span>Discount</span><span id="ledger-discount">- ₹0</span></div>
+                    <div class="invoice-row"><span>Shipping</span><span>Calculated at next step</span></div>
+                    <div class="invoice-row invoice-total"><span>Total</span><span id="ledger-total">₹0</span></div>
+                </div>
+                
+                <button class="btn-dark" style="margin-top: 20px;" onclick="evaluateCheckoutPermission()">CHECKOUT</button>
+            </div>
+        </div>
+
+        <!-- SHIPPING & PAYMENT MODULE -->
+        <div id="view-checkout" class="page">
+            <div class="auth-container" style="max-width: 600px;">
+                <h2>Shipping Details</h2>
+                <div class="form-group"><input type="text" id="ship-fullname" placeholder="Full Name"></div>
+                <div class="form-group"><input type="tel" id="ship-phone" placeholder="Mobile Number"></div>
+                <div class="form-group"><input type="text" id="ship-l1" placeholder="Flat, House no., Apartment"></div>
+                <div class="form-group"><input type="text" id="ship-l2" placeholder="Area, Street, Sector"></div>
+                <div style="display:flex; gap:15px;">
+                    <div class="form-group" style="flex:1;"><input type="text" id="ship-city" placeholder="City"></div>
+                    <div class="form-group" style="flex:1;"><input type="number" id="ship-pincode" placeholder="Pincode"></div>
+                </div>
+
+                <h2 style="margin-top: 30px;">Payment Method</h2>
+                <div class="payment-option active" id="pay-upi" onclick="selectPayment('UPI')">
+                    <div class="pay-radio"><div class="pay-radio-inner"></div></div>
+                    <div><strong>UPI</strong><br><span style="font-size: 12px; color: var(--text-muted);">GPay, PhonePe, Paytm</span></div>
+                </div>
+                <div class="payment-option" id="pay-card" onclick="selectPayment('CARD')">
+                    <div class="pay-radio"><div class="pay-radio-inner"></div></div>
+                    <div><strong>Credit / Debit Card</strong><br><span style="font-size: 12px; color: var(--text-muted);">Visa, Mastercard, RuPay</span></div>
+                </div>
+                <div class="payment-option" id="pay-cod" onclick="selectPayment('COD')">
+                    <div class="pay-radio"><div class="pay-radio-inner"></div></div>
+                    <div><strong>Cash on Delivery (COD)</strong></div>
+                </div>
+
+                <button class="btn-dark" style="margin-top: 30px;" onclick="processFinalPayment()">PAY ₹1 & PLACE ORDER</button>
+            </div>
+        </div>
+
+        <!-- PRANK MODULE -->
+        <div id="view-prank" class="page">
+            <div class="prank-frame">
+                <div class="prank-graphic">🤡</div>
+                <h1 style="color: var(--danger); font-size: 32px; margin-bottom: 20px;">ORDER REJECTED</h1>
+                <p style="font-size:18px; color: var(--text-main); line-height: 1.6; max-width: 600px; margin: 0 auto;">
+                    Account banaya, photos check ki, size select kiya, random code generate kiya, address aur payment bhi daal di... Itna dhyan agar padhai me lagata toh top maar leta! 😂<br><br>
+                    Koi ₹1 ki shopping nahi chal rahi yahan. Chup-chaap screen band kar aur apni <span style="background: #fef08a; padding: 2px 8px; font-weight: bold;">Black Book</span> solve kar!<br><br>
+                    Back to reality. 📚⏳
+                </p>
+            </div>
+        </div>
+
+    </div>
 
 <script src="app.js"></script>
 </body>
