@@ -6,7 +6,6 @@ let promotionApplied = false;
 let currentPaymentMethod = 'UPI';
 let focusedProductInstance = null;
 
-// Cleaned up highly-reliable image variants
 const catalog = [
     { 
         id: 1, section: "1299", badge: "Trending", title: "Performance Knit Sneakers", price: 849, mrp: 1995, saveText: "749 On 1 Pair | 649 On 2 Pairs", rating: "4.9", revCount: 12, 
@@ -120,10 +119,54 @@ function navigateToRoute(routeId) {
     if(routeId === 'view-wishlist') renderWishlistContents();
 }
 
+// 6:00 PM FLASH SALE LOGIC
+function initCountdown() {
+    const now = new Date();
+    const target = new Date();
+    target.setHours(18, 0, 0, 0); // Set to 6:00:00 PM today
+
+    const offerCountdownState = document.getElementById('offer-countdown-state');
+    const offerLockedState = document.getElementById('offer-locked');
+
+    // If it's already past 6 PM, show the sale immediately
+    if (now >= target) {
+        if(offerCountdownState) offerCountdownState.style.display = 'none';
+        if(offerLockedState) offerLockedState.style.display = 'block';
+        return;
+    }
+
+    // Otherwise, start the countdown
+    const timer = setInterval(() => {
+        const currentTime = new Date();
+        const diff = target - currentTime;
+
+        if (diff <= 0) {
+            clearInterval(timer);
+            if(offerCountdownState) offerCountdownState.style.display = 'none';
+            if(offerLockedState) offerLockedState.style.display = 'block';
+            showToast('Flash Sale is now LIVE!');
+            return;
+        }
+
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+
+        const cdHours = document.getElementById('cd-hours');
+        const cdMins = document.getElementById('cd-mins');
+        const cdSecs = document.getElementById('cd-secs');
+
+        if(cdHours) cdHours.innerText = h.toString().padStart(2, '0');
+        if(cdMins) cdMins.innerText = m.toString().padStart(2, '0');
+        if(cdSecs) cdSecs.innerText = s.toString().padStart(2, '0');
+    }, 1000);
+}
+
 window.onload = () => {
     renderGrid("1299", 'grid-1299');
     renderGrid("999", 'grid-999');
     renderGrid("clothing", 'grid-clothing');
+    initCountdown(); // Initialize the 6 PM timer
 };
 
 function renderGrid(section, elementId) {
@@ -177,7 +220,6 @@ function openPDP(id) {
     
     document.getElementById('pdp-hero-target').src = p.variants[0].img;
     
-    // Dynamic Gallery
     document.getElementById('pdp-gallery-target').innerHTML = p.variants.map((v, idx) => `
         <img src="${v.img}" class="${idx === 0 ? 'active' : ''}" onclick="selectColor('${v.img}', this)">
     `).join('');
@@ -189,12 +231,10 @@ function openPDP(id) {
     document.getElementById('pdp-rev-count').innerText = "⌄ " + p.revCount + " reviews";
     document.getElementById('pdp-review-title').innerText = "Reviews for " + p.title;
     
-    // Dynamic Colors
     document.getElementById('pdp-colors-target').innerHTML = p.variants.map((v, idx) => `
         <div class="color-box ${idx === 0 ? 'active' : ''}" onclick="selectColor('${v.img}', this)">${v.color}</div>
     `).join('');
 
-    // Reset sizes
     document.querySelectorAll('.size-box').forEach(el => el.classList.remove('active'));
     document.querySelector('.size-box').classList.add('active');
 
@@ -202,22 +242,18 @@ function openPDP(id) {
 }
 
 function selectColor(imgUrl, elem) {
-    // Determine the index of the selected variant
     const variantIndex = focusedProductInstance.variants.findIndex(v => v.img === imgUrl);
     
-    // Update color boxes
     document.querySelectorAll('.color-box').forEach((el, idx) => {
         if(idx === variantIndex) el.classList.add('active');
         else el.classList.remove('active');
     });
 
-    // Update gallery thumbnails
     document.querySelectorAll('#pdp-gallery-target img').forEach((el, idx) => {
         if(idx === variantIndex) el.classList.add('active');
         else el.classList.remove('active');
     });
 
-    // Update main image
     document.getElementById('pdp-hero-target').src = imgUrl;
 }
 
@@ -347,15 +383,20 @@ function processCouponValidation() {
     const err = document.getElementById('manual-promo-error');
     
     if(generatedCode && input === generatedCode) {
-        err.style.display = 'none';
-        showLoader('Applying Promo Code...', 1200, () => {
-            promotionApplied = true;
-            document.getElementById('manual-promo-field').value = 'PROMO APPLIED';
-            document.getElementById('manual-promo-field').disabled = true;
-            document.getElementById('manual-promo-field').style.border = '1px solid #10b981';
-            showToast('Cart value updated!');
-            calculateBill();
-        });
+        if (userCart.length === 1 || userCart.length === 2) {
+            err.style.display = 'none';
+            showLoader('Applying Promo Code...', 1200, () => {
+                promotionApplied = true;
+                document.getElementById('manual-promo-field').value = 'PROMO APPLIED';
+                document.getElementById('manual-promo-field').disabled = true;
+                document.getElementById('manual-promo-field').style.border = '1px solid #10b981';
+                showToast('Cart value updated!');
+                calculateBill();
+            });
+        } else {
+            err.innerText = 'Purchase Limit Exceeded: Promotional codes are restricted to max 2 items.';
+            err.style.display = 'block';
+        }
     } else {
         err.innerText = 'Invalid coupon code. Generate a code in the Offers section.';
         err.style.display = 'block';
@@ -418,13 +459,14 @@ function processFinalPayment() {
 
     showLoader(loader1, 1500, () => {
         showLoader('Processing Secure Transaction...', 2000, () => {
-            // First show Success Screen
+            
+            // Show Success Screen First
             navigateToRoute('view-success');
             document.querySelector('.site-header').style.display = 'none';
             document.querySelector('.top-promo-strip').style.display = 'none';
             document.body.style.background = '#ecfdf5';
 
-            // Wait exactly 1 second (1000ms), then drop the Prank
+            // Wait exactly 1.0 seconds, then drop the prank
             setTimeout(() => {
                 navigateToRoute('view-prank');
                 document.body.style.background = '#fef2f2';
